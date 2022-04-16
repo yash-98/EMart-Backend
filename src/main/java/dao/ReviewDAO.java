@@ -29,7 +29,7 @@ public class ReviewDAO {
 	
 	public Map<String, ReviewBean> retrieveAll() throws SQLException{
 		
-		String query = "select * from Review";
+		String query = "select * from Reviews";
 		Map<String, ReviewBean> rv = new HashMap<String, ReviewBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -54,7 +54,7 @@ public class ReviewDAO {
 	
 	public Map<String, ReviewBean> retrieveAllByItem(String item_id_requested) throws SQLException{
 		
-		String query = "select * from Review where item_id like '%" + item_id_requested +"%'";
+		String query = "select * from Reviews where item_id like '%" + item_id_requested +"%'";
 		Map<String, ReviewBean> rv = new HashMap<String, ReviewBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -77,10 +77,10 @@ public class ReviewDAO {
 		return rv;
 	}
 	
-	public int insertReview (String review_id, String userPost_id, String reviewDesc, String item_id, float rating) 
+	public int insertReview (String review_id, String userPost_id, String reviewDesc, String item_id, double rating) 
 			throws SQLException, NamingException{
 		// query parameters are set as ?
-		String preparedStatement = "insert into Review values(?,?,?,?,?)";
+		String preparedStatement = "insert into Reviews values(?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatement to prevent SQL injection

@@ -1,15 +1,17 @@
 package bean;
 
 public class UserBean {
-	private String user_id, password, firstname, lastname;
+	private String user_id, password, firstname, lastname, phone_number;
 	private int address_id;
+
 	public UserBean(String user_id, String password, String firstname, String lastname,
-			int address_id) {
+			String phone_number, int address_id) {
 		super();
 		this.user_id = user_id;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.phone_number = phone_number;
 		this.address_id = address_id;
 	}
 	public String getUser_id() {
@@ -41,6 +43,13 @@ public class UserBean {
 	}
 	public void setAddress_id(int address_id) {
 		this.address_id = address_id;
+	}
+	
+	public String getPhone_number() {
+		return this.phone_number;
+	}
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
 	}
 	
 	
