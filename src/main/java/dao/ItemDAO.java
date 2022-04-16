@@ -25,9 +25,10 @@ public class ItemDAO {
 		}
 	}
 	
-	public Map<String, ItemBean> retrieve(String namePrefix, String brand) throws SQLException{
+	public Map<String, ItemBean> retrieveAll() throws SQLException{
 		
-		String query = "select * from Item where name like '%" + namePrefix +"%'and brand like '%" + brand +"%'";
+		String query = "select * from Item";
+		//String query = "select * from Item where name like '%" + namePrefix +"%'and brand like '%" + brand +"%'";
 		Map<String, ItemBean> rv = new HashMap<String, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -52,4 +53,61 @@ public class ItemDAO {
 		
 		return rv;
 	}
+	
+	public Map<String, ItemBean> retrieveByType(String type) throws SQLException{
+		
+		String query = "select * from Item where type like '%" + type +"%'";
+		Map<String, ItemBean> rv = new HashMap<String, ItemBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			String iBid = r.getString("BID");
+			String iName = r.getString("NAME");
+			String iDescription = r.getString("DESCRIPTION");
+			String iBrand = r.getString("BRAND");
+			String iType = r.getString("TYPE");
+			int iQty = r.getInt("QUANTITY");
+			int iPrice = r.getInt("PRICE");
+			
+			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
+	
+	public Map<String, ItemBean> retrieveByBrand(String brand) throws SQLException{
+		
+		String query = "select * from Item where brand like '%" + brand +"%'";
+		Map<String, ItemBean> rv = new HashMap<String, ItemBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			String iBid = r.getString("BID");
+			String iName = r.getString("NAME");
+			String iDescription = r.getString("DESCRIPTION");
+			String iBrand = r.getString("BRAND");
+			String iType = r.getString("TYPE");
+			int iQty = r.getInt("QUANTITY");
+			int iPrice = r.getInt("PRICE");
+			
+			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
+	
 }
