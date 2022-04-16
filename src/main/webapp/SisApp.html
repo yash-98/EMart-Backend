@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Student Information System</title>
+		
+		<link rel="stylesheet" href="./res/mc.css" type="text/css" title="cse4413" media="screen, print" />
+		<script type="text/javascript" src="scripts/mc.js">;</script>
+		
+	</head>
+	
+	<body>
+	
+		<header>Student Information System</header>
+		<nav>
+			<a href="http://localhost:8080/DESAI_SIS-v1/SisApp.html">Home</a>
+			<a href="http://localhost:8080/DESAI_SIS-v1/SisApp.html">About</a>
+		</nav>
+		
+		
+		<div>
+		<!-- Form -->
+		<fieldset>
+			<legend>SIS-v1</legend>
+			
+			<form action="Osap" method="POST" class="osapForm" onsubmit="return validate();">
+				
+				
+				<label for="name">Name Prefix:<span id="name-error">*</span></label>
+				<input type="text" id="name" name="name">
+				
+				<br>
+				
+				<label for="credit_taken">Minimum Credit Taken:<span id="credit_taken-error">*</span></label>
+				<input type="number" step="1" id="credit_taken" name="credit_taken">
+				
+				<br>
+			</form>	
+			
+			<button type="submit" value="ReportAjax" id="report" name="reportAjax" onclick="reportAjax('/DESAI_SIS-v2/Sis?reportAjax=true')">ReportAjax</button>
+		</fieldset>
+		<br>
+		<div id="result"></div>
+		</div>
+		
+		<br>
+		
+		<footer>
+			
+			<img alt="" src="https://upload.wikimedia.org/wikipedia/en/2/26/Lassonde_School_of_Engineering_Logo.png" height="150" width="150">
+<!-- 			<img alt="" src="https://lassonde.yorku.ca/wp-content/themes/lassonde/images/Lassonde-YorkU-Logo-RGB.svg" height="150" width="150">
+			<br>
+			<strong>York University</strong> -->
+		</footer>
+	</body>
+</html>
