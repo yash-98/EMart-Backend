@@ -3,16 +3,15 @@ package bean;
 public class AddressBean {
 
 	private int id;
-	private String street, province, country, zip, phone;
+	private String street, province, country, zip;
 	
-	public AddressBean(int id, String street, String province, String country, String zip, String phone) {
+	public AddressBean(int id, String street, String province, String country, String zip) {
 		super();
 		this.id = id;
 		this.street = street;
 		this.province = province;
 		this.country = country;
 		this.zip = zip;
-		this.phone = phone;
 	}
 
 	public int getId() {
@@ -53,14 +52,6 @@ public class AddressBean {
 
 	public void setZip(String zip) {
 		this.zip = zip;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 	
 	
