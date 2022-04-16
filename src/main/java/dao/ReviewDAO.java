@@ -76,5 +76,24 @@ public class ReviewDAO {
 		
 		return rv;
 	}
+	
+	public int insertReview (String review_id, String userPost_id, String reviewDesc, String item_id, float rating) 
+			throws SQLException, NamingException{
+		// query parameters are set as ?
+		String preparedStatement = "insert into Review values(?,?,?,?,?)";
+		Connection con = this.ds.getConnection();
+		
+		//PreparedStatement to prevent SQL injection
+		PreparedStatement stmt = con.prepareStatement(preparedStatement);
+		
+		// Set individual parameters through method calls
+		stmt.setString(1, review_id);
+		stmt.setString(2, userPost_id);
+		stmt.setString(3, reviewDesc);
+		stmt.setString(4, item_id);
+		stmt.setDouble(5, rating);
+		
+		return stmt.executeUpdate();
+	}
 
 }

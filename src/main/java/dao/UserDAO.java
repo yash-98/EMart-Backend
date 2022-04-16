@@ -48,10 +48,30 @@ public class UserDAO {
 			rv.put(email, new UserBean(email, pass, firstname, lastname, address_id));
 		}
 		
+		
 		r.close();
 		p.close();
 		con.close();
 		
 		return rv;
+	}
+	
+	public int insertUser(String email, String password, String firstname, String lastname, int address_id) 
+			throws SQLException, NamingException{
+		// query parameters are set as ?
+		String preparedStatement = "insert into User values(?,?,?,?,?)";
+		Connection con = this.ds.getConnection();
+		
+		//PreparedStatement to prevent SQL injection
+		PreparedStatement stmt = con.prepareStatement(preparedStatement);
+		
+		// Set individual parameters through method calls
+		stmt.setString(1, email);
+		stmt.setString(2, password);
+		stmt.setString(3, firstname);
+		stmt.setString(4, lastname);
+		stmt.setInt(5, address_id);
+		
+		return stmt.executeUpdate();
 	}
 }
