@@ -3,12 +3,13 @@ package bean;
 public class POBean {
 
 	private int id, addressID;
-	private String lname, fname, status;
+	private String email, lname, fname, status;
 	
-	public POBean(int id, int addressID, String lname, String fname, String status) {
+	public POBean(int id, int addressID, String email, String lname, String fname, String status) {
 		super();
 		this.id = id;
 		this.addressID = addressID;
+		this.email = email;
 		this.lname = lname;
 		this.fname = fname;
 		this.status = status;
@@ -28,6 +29,14 @@ public class POBean {
 
 	public void setAddressID(int addressID) {
 		this.addressID = addressID;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getLname() {
