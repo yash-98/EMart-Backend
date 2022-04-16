@@ -57,4 +57,85 @@ public class PODAO {
 		return stmt.executeUpdate();
 	}
 	
+	
+	public Map<Integer, POBean> retrieveAll() throws SQLException{
+		
+		String query = "select * from PO";
+		Map<Integer, POBean> rv = new HashMap<Integer, POBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			int poId = r.getInt("ID");
+			int poAddressId = r.getInt("ADDRESS");
+			String poEmail = r.getString("EMAIL");
+			String poLName = r.getString("LNAME");
+			String poFName = r.getString("FNAME");
+			String poStatus = r.getString("STATUS");
+			
+			rv.put(poId, new POBean(poId, poAddressId, poEmail, poLName, poFName, poStatus));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
+	
+	public Map<Integer, POBean> retrieveById(int id) throws SQLException{
+		
+		String query = "select * from PO where id=" +id;
+		Map<Integer, POBean> rv = new HashMap<Integer, POBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			int poId = r.getInt("ID");
+			int poAddressId = r.getInt("ADDRESS");
+			String poEmail = r.getString("EMAIL");
+			String poLName = r.getString("LNAME");
+			String poFName = r.getString("FNAME");
+			String poStatus = r.getString("STATUS");
+			
+			rv.put(poId, new POBean(poId, poAddressId, poEmail, poLName, poFName, poStatus));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
+	
+	public Map<Integer, POBean> retrieveByEmail(String email) throws SQLException{
+		
+		String query = "select * from PO where email=" +email;
+		Map<Integer, POBean> rv = new HashMap<Integer, POBean>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			int poId = r.getInt("ID");
+			int poAddressId = r.getInt("ADDRESS");
+			String poEmail = r.getString("EMAIL");
+			String poLName = r.getString("LNAME");
+			String poFName = r.getString("FNAME");
+			String poStatus = r.getString("STATUS");
+			
+			rv.put(poId, new POBean(poId, poAddressId, poEmail, poLName, poFName, poStatus));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
 }
