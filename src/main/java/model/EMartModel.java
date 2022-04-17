@@ -54,29 +54,29 @@ public class EMartModel {
 		}
 	}
 	
-	public Map<String, ReviewBean> retrieveAllItemReviews(String item_id_requested) {
+	public Map<String, ReviewBean> retrieveAllItemReviews(String itemId_requested) {
 		try {
-			if (item_id_requested.length() < 1) 
+			if (itemId_requested.length() < 1) 
 				throw new IllegalArgumentException();
 			
-			item_id_requested = item_id_requested.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			if (item_id_requested.length() < 1) 
+			itemId_requested = itemId_requested.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			if (itemId_requested.length() < 1) 
 				throw new IllegalArgumentException();
 			
 			return reviewData.retrieveAll();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("The item_id of the reviews requested was invalid.");
+			System.out.println("The itemId of the reviews requested was invalid.");
 			return null;
 		}
 	}
 	
-	public void checkReviewParameters(String review_id, String userPost_id, String reviewDesc, String item_id) {
-		if (review_id.length() < 1) {
+	public void checkReviewParameters(String reviewId, String userPostId, String reviewDesc, String itemId) {
+		if (reviewId.length() < 1) {
 			System.out.println("Review ID is not valid.");
 			throw new IllegalArgumentException();
 		}
-		if (userPost_id.length() < 1) {
+		if (userPostId.length() < 1) {
 			System.out.println("User Post ID is not valid.");
 			throw new IllegalArgumentException();
 		}
@@ -84,26 +84,26 @@ public class EMartModel {
 			System.out.println("Review Description is not valid.");
 			throw new IllegalArgumentException();
 		}
-		if (item_id.length() < 1) {
+		if (itemId.length() < 1) {
 			System.out.println("Item Id for review is not valid.");
 			throw new IllegalArgumentException();
 		}
 		
 	}
 	
-	public int addReview(String review_id, String userPost_id, String reviewDesc, String item_id, String rating) {
+	public int addReview(String reviewId, String userPostId, String reviewDesc, String itemId, String rating) {
 		try {
-			checkReviewParameters(review_id, userPost_id, reviewDesc, item_id);
-			review_id = review_id.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			userPost_id = userPost_id.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			checkReviewParameters(reviewId, userPostId, reviewDesc, itemId);
+			reviewId = reviewId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			userPostId = userPostId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			reviewDesc = reviewDesc.replaceAll(" ", "___").replaceAll("[\"\"'']", "");
-			review_id = review_id.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			reviewId = reviewId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			
 			if (Double.parseDouble(rating) < 0 || Double.parseDouble(rating) > 5) {
 				System.out.println("Review rating is invalid. Must be a number between 0 and 5.");
 			}
-			checkReviewParameters(review_id, userPost_id, reviewDesc, item_id);
-			return reviewData.insertReview(review_id, userPost_id, reviewDesc, item_id, Double.parseDouble(rating));
+			checkReviewParameters(reviewId, userPostId, reviewDesc, itemId);
+			return reviewData.insertReview(reviewId, userPostId, reviewDesc, itemId, Double.parseDouble(rating));
 			
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -115,17 +115,17 @@ public class EMartModel {
 	//TODO Add deleteReview
 	
 	//User based functions
-	public Map<String, UserBean> retrieveUserToAuthenticate(String user_id, String password) {
+	public Map<String, UserBean> retrieveUserToAuthenticate(String userId, String password) {
 		try {
-			if (user_id.length() < 1) {
+			if (userId.length() < 1) {
 				System.out.println("Invalid User id.");
 			}
 			if (password.length() < 1) {
 				System.out.println("Invalid password.");
 			}
-			user_id = user_id.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			userId = userId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			password = password.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			return userData.retrieveUserAuth(user_id, password);
+			return userData.retrieveUserAuth(userId, password);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Incorrect or Invalid user id/password.");
@@ -133,13 +133,13 @@ public class EMartModel {
 		}
 	}
 	
-	public Map<String, UserBean> retrieveUser(String user_id) {
+	public Map<String, UserBean> retrieveUser(String userId) {
 		try {
-			if (user_id.length() < 1) {
+			if (userId.length() < 1) {
 				System.out.println("Invalid User id.");
 			}
-			user_id = user_id.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			return userData.retrieveUser(user_id);
+			userId = userId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			return userData.retrieveUser(userId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Incorrect or Invalid user id.");
@@ -170,7 +170,7 @@ public class EMartModel {
 		}
 	}
 	
-	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String address_id) {
+	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String addressId) {
 		try {
 			checkUserParamters(email, password, firstname, lastname, phonenumber);
 			email = email.replaceAll(" ", "").replaceAll("[\"\"'']", "");
@@ -180,8 +180,8 @@ public class EMartModel {
 			phonenumber = phonenumber.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			checkUserParamters(email, password, firstname, lastname, phonenumber);
 			//TODO ADD IN ADDRESS INFORMATION FOR ADDUSER
-			int add_id = Integer.parseInt(address_id);
-			return userData.insertUser(email, password, firstname, lastname, phonenumber, add_id);
+			int addId = Integer.parseInt(addressId);
+			return userData.insertUser(email, password, firstname, lastname, phonenumber, addId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There was an error when trying to create/insert the user.");

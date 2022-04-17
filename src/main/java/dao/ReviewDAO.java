@@ -36,13 +36,13 @@ public class ReviewDAO {
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
-			String review_id = r.getString("REVIEW_ID");
-			String userPost_id = r.getString("USERPOST_ID");
+			String reviewId = r.getString("REVIEWId");
+			String userPostId = r.getString("USERPOSTId");
 			String reviewDesc = r.getString("REVIEW");
-			String item_id = r.getString("ITEM_ID");
+			String itemId = r.getString("ITEMId");
 			double rating = r.getInt("RATING");
 			
-			rv.put(review_id, new ReviewBean(review_id, userPost_id, reviewDesc, item_id, rating));
+			rv.put(reviewId, new ReviewBean(reviewId, userPostId, reviewDesc, itemId, rating));
 		}
 		
 		r.close();
@@ -52,22 +52,22 @@ public class ReviewDAO {
 		return rv;
 	}
 	
-	public Map<String, ReviewBean> retrieveAllByItem(String item_id_requested) throws SQLException{
+	public Map<String, ReviewBean> retrieveAllByItem(String itemIdRequested) throws SQLException{
 		
-		String query = "select * from Reviews where item_id like '%" + item_id_requested +"%'";
+		String query = "select * from Reviews where itemId like '%" + itemIdRequested +"%'";
 		Map<String, ReviewBean> rv = new HashMap<String, ReviewBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
-			String review_id = r.getString("REVIEW_ID");
-			String userPost_id = r.getString("USERPOST_ID");
+			String reviewId = r.getString("REVIEWId");
+			String userPostId = r.getString("USERPOSTId");
 			String reviewDesc = r.getString("REVIEW");
-			String item_id = r.getString("ITEM_ID");
+			String itemId = r.getString("ITEMId");
 			double rating = r.getInt("RATING");
 			
-			rv.put(review_id, new ReviewBean(review_id, userPost_id, reviewDesc, item_id, rating));
+			rv.put(reviewId, new ReviewBean(reviewId, userPostId, reviewDesc, itemId, rating));
 		}
 		
 		r.close();
@@ -77,7 +77,7 @@ public class ReviewDAO {
 		return rv;
 	}
 	
-	public int insertReview (String review_id, String userPost_id, String reviewDesc, String item_id, double rating) 
+	public int insertReview (String reviewId, String userPostId, String reviewDesc, String itemId, double rating) 
 			throws SQLException, NamingException{
 		// query parameters are set as ?
 		String preparedStatement = "insert into Reviews values(?,?,?,?,?)";
@@ -87,10 +87,10 @@ public class ReviewDAO {
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
 		
 		// Set individual parameters through method calls
-		stmt.setString(1, review_id);
-		stmt.setString(2, userPost_id);
+		stmt.setString(1, reviewId);
+		stmt.setString(2, userPostId);
 		stmt.setString(3, reviewDesc);
-		stmt.setString(4, item_id);
+		stmt.setString(4, itemId);
 		stmt.setDouble(5, rating);
 		
 		return stmt.executeUpdate();

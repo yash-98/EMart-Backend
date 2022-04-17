@@ -1,24 +1,24 @@
 package bean;
 
 public class UserBean {
-	private String user_id, password, firstname, lastname, phone_number;
-	private int address_id;
+	private String userId, password, firstname, lastname, phoneNumber;
+	private int addressId;
 
-	public UserBean(String user_id, String password, String firstname, String lastname,
-			String phone_number, int address_id) {
+	public UserBean(String userId, String password, String firstname, String lastname,
+			String phoneNumber, int addressId) {
 		super();
-		this.user_id = user_id;
+		this.userId = userId;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.phone_number = phone_number;
-		this.address_id = address_id;
+		this.phoneNumber = phoneNumber;
+		this.addressId = addressId;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getPassword() {
 		return password;
@@ -38,18 +38,18 @@ public class UserBean {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	public int getAddress_id() {
-		return address_id;
+	public int getAddressId() {
+		return addressId;
 	}
-	public void setAddress_id(int address_id) {
-		this.address_id = address_id;
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
 	}
 	
-	public String getPhone_number() {
-		return this.phone_number;
+	public String getPhoneNumber() {
+		return this.phoneNumber;
 	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 	
