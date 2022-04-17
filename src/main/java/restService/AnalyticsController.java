@@ -59,6 +59,7 @@ public class AnalyticsController {
 	}
 	
 	@POST
+	@Path("/appusage")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String addVisitEvent(@QueryParam("ip")String ip,
 			@QueryParam("day")String day, @QueryParam("bid")String
