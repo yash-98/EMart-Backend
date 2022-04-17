@@ -57,7 +57,7 @@ public class CatalogController {
 		return out;
 	}
 	
-	@GET
+	/*@GET
 	@Path("/allBrands")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllBrands() {
@@ -87,14 +87,14 @@ public class CatalogController {
 		}
 
 		return out;
-	}
+	}*/
 	
 	@GET
 	@Path("/itemsByBrand")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getItemsByBrand(@QueryParam("brand") String brand) {
 		
-		Map<Integer, ItemBean> items = emart.retrieveItemsByBrand(brand);
+		Map<Integer, ItemBean> items = emart.retrieveItemByBrand(brand);
 		
 		String out = "";
 		
@@ -110,7 +110,7 @@ public class CatalogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getItemsByType(@QueryParam("type") String type) {
 		
-		Map<Integer, ItemBean> items = emart.retrieveItemsByType(type);
+		Map<Integer, ItemBean> items = emart.retrieveItemByType(type);
 		
 		String out = "";
 		
