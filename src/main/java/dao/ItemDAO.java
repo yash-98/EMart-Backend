@@ -59,6 +59,27 @@ public class ItemDAO {
 		return stmt.executeUpdate();
 	}
 	
+	public int LastID() throws SQLException{
+		
+		String query = "select max(bid) from item";
+		int lastID = 0;
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			
+			lastID = r.getInt("BID");
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return lastID;
+	}
+	
 	public Map<Integer, ItemBean> retrieveAll() throws SQLException{
 		
 		String query = "select * from item";

@@ -54,6 +54,27 @@ public class POItemDAO {
 		return stmt.executeUpdate();
 	}
 	
+	public int LastID() throws SQLException{
+		
+		String query = "select max(id) from POItem";
+		int lastID = 0;
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			
+			lastID = r.getInt("ID");
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return lastID;
+	}
+	
 	
 	public Map<Integer, POItemBean> retrieveAll() throws SQLException{
 		

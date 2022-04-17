@@ -56,6 +56,26 @@ public class AddressDAO {
 		return stmt.executeUpdate();
 	}
 	
+	public int LastID() throws SQLException{
+		
+		String query = "select max(id) from Address";
+		int lastID = 0;
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			
+			lastID = r.getInt("ID");
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return lastID;
+	}
 	
 	public Map<Integer, AddressBean> retrieveAll() throws SQLException{
 		
@@ -109,31 +129,31 @@ public class AddressDAO {
 		return rv;
 	}
 	
-	public Map<Integer, AddressBean> retrieveByAll(String street, String province, String country, String zip) throws SQLException{
+	public int retrieveByAll(String street, String province, String country, String zip) throws SQLException{
 		
 		String query = "select * from Address where street like '%" +street 
 				+"%' and province like '%" +province +"%'" +" and country like '%" +country +"%'" 
 				+" and zip like '%" +zip +"%'";
-		Map<Integer, AddressBean> rv = new HashMap<Integer, AddressBean>();
+		int addId = -1;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
 			
-			int addId = r.getInt("ID");
-			String addStreet = r.getString("STREET");
+			addId = r.getInt("ID");
+			/*String addStreet = r.getString("STREET");
 			String addProvince = r.getString("PROVINCE");
 			String addCountry = r.getString("COUNTRY");
 			String addZip = r.getString("ZIP");
 			
-			rv.put(addId, new AddressBean(addId, addStreet, addProvince, addCountry, addZip));
+			rv.put(addId, new AddressBean(addId, addStreet, addProvince, addCountry, addZip));*/
 		}
 		
 		r.close();
 		p.close();
 		con.close();
 		
-		return rv;
+		return addId;
 	}
 }

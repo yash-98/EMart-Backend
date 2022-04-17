@@ -2,8 +2,8 @@ package model;
 
 import dao.*;
 
+import java.sql.SQLException;
 import java.util.*;
-
 import bean.*;
 
 public class EMartModel {
@@ -52,13 +52,13 @@ public class EMartModel {
 			addressData = new AddressDAO();
 			poitemData = new POItemDAO();
 			// Static variable ID instantiation
-			// TODO instantiate IDs with the largest ID
-			this.addressId = 0;
-			this.itemId = 0;
-			this.reviewId = 0;
-			this.bId = 0;
-			this.pOId = 0;
-			this.poitemId = 0;
+			// TODO instantiate IDs with the largest ID			
+			this.addressId = addressData.LastID();
+			this.itemId = itemData.LastID();
+			this.reviewId = reviewData.LastID();
+			this.bId = 0; // Item ID and bid are the same, why 2 vars?
+			this.pOId = poData.LastID();
+			this.poitemId = 0; //The Item ID will be provided as part of arg right.
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -79,6 +79,16 @@ public class EMartModel {
 		}
 		//TODO create function which checks if bid actually exists in Item table as it's a foreign key
 		if (bid.length() < 1 || bid.matches("[^0-9]")) {
+			
+			//Function not needed
+			try {
+				boolean exists = itemData.retrieveAll().containsKey(bid);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Added implementation
+			
 			errstr.append("The bid paramter of POItem insertion is invallid.\n");
 			throwError = true;
 		}
@@ -243,7 +253,8 @@ public class EMartModel {
 		}
 	}
 	
-	public Map<Integer, AddressBean> retrieveAllAddressesByAllParameters(String street, String province, String country, String zip) {
+	// TODO: Change this since, there can only be 1 address with all the values same. So I can try to send a Tuple, if need be, but id should be fine.
+	public int retrieveAllAddressesByAllParameters(String street, String province, String country, String zip) {
 		try {
 			checkAddressParamters(street, province, country, zip);
 			street = street.replaceAll(" ", "___").replaceAll("[\"\"'']", "");
@@ -254,7 +265,7 @@ public class EMartModel {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There was an error when trying to retrieve the address using all parameters.");
-			return null;
+			return -1;
 		}
 	}
 	
@@ -586,7 +597,7 @@ public class EMartModel {
 		}
 	}
 	
-	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String addressId) {
+	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String street, String province, String country, String zip) {
 		try {
 			checkUserParamters(email, password, firstname, lastname, phonenumber);
 			email = email.replaceAll(" ", "").replaceAll("[\"\"'']", "");
@@ -596,7 +607,14 @@ public class EMartModel {
 			phonenumber = phonenumber.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			checkUserParamters(email, password, firstname, lastname, phonenumber);
 			//TODO ADD IN ADDRESS INFORMATION FOR ADDUSER
-			int addId = Integer.parseInt(addressId);
+			int addId = addressData.retrieveByAll(street, province, country, zip);
+			
+			if(addId == -1) {
+				
+				insertAddress(street, province, country, zip);
+				addId = addressId;
+			}
+			
 			return userData.insertUser(email, password, firstname, lastname, phonenumber, addId);
 		} catch (Exception e) {
 			// TODO: handle exception
