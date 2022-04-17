@@ -14,6 +14,7 @@ public class EMartModel {
 	private PODAO poData;
 	private AddressDAO addressData;
 	private POItemDAO poitemData;
+	private VisitEventDAO visitData;
 	
 	// Static ID variables
 	private int reviewId;
@@ -66,7 +67,66 @@ public class EMartModel {
 	}
 	
 	// VisitEvent DAO based functions
-//	public int insertVisitEvent()
+	public void checkVisitEventParameters(String ipAddress, String day, String bid, String eventType) {
+		StringBuilder errstr = new StringBuilder("");
+		boolean throwError = false;
+		if (ipAddress.length() < 1) {
+			errstr.append("The IP Address paramter is incorrect for the EventType insert.\n");
+			throwError = true;
+		}
+		if (day.length() < 1) {
+			errstr.append("The day paramter is incorrect for the EventType insert.\n");
+			throwError = true;
+		}
+		if (bid.length() < 1) {
+			errstr.append("The BID paramter is incorrect for the EventType insert.\n");
+			throwError = true;
+		}
+		try {
+			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			boolean exists = itemData.retrieveAll().containsKey(bid);
+			if (!exists) {
+				errstr.append("The BID parameter does not exist in the Items table.");
+				throwError = true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (eventType.length() < 1) {
+			errstr.append("The eventType paramter is incorrect for the EventType insert.\n");
+			throwError = true;
+		}
+		if (throwError) {
+			System.out.println(errstr.toString());
+			throw new IllegalArgumentException();
+		}
+	}
+	public int insertVisitEvent(String ipAddress, String day, String bid, String eventType) {
+		try {
+			checkVisitEventParameters(ipAddress, day, bid, eventType);
+			ipAddress = ipAddress.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			day = day.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			eventType = eventType.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			
+			return this.visitData.insert(ipAddress, day, bid, eventType);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("There wan an error when trying to insert the visit Event Data.");
+			return 0;
+		}
+	}
+	
+	public List<VisitEventBean> retrieveAllVisitEvents() {
+		try {
+			return this.visitData.retrieveAll();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("There was an problem when trying to retrieve all the Visit Events.");
+			return null;
+		}
+	}
 	
 	// POItem DAO based functions
 	public void checkPOItemParamters(String price, String bid) {
@@ -82,7 +142,12 @@ public class EMartModel {
 			
 			//Function not needed
 			try {
+				bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 				boolean exists = itemData.retrieveAll().containsKey(bid);
+				if (!exists) {
+					errstr.append("The BID parameter does not exist in the Items table.");
+					throwError = true;
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
