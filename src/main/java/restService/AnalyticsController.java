@@ -8,19 +8,19 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import bean.VisitEventBean;
-import model.SisModel;
+import model.EMartModel;
 
 @Path("analytics") //this is the path of the resource
 
 
 public class AnalyticsController {
 
-	private SisModel sis;
+	private EMartModel emart;
 	private Gson jsonConvertor;
 	
 	public AnalyticsController() {
 		
-		sis = SisModel.getInstance();
+		emart = EMartModel.getInstance();
 		
 		GsonBuilder builder = new GsonBuilder();
 		jsonConvertor = builder.create();
@@ -31,7 +31,23 @@ public class AnalyticsController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAppUsage() {
 		
-		List<VisitEventBean> events = sis.retrieveEvents();
+		List<VisitEventBean> events = emart.retrieveEvents();
+		
+		String out = "";
+		
+		if(events != null && !events.isEmpty()) {
+			out = "{ \"events\" : " +jsonConvertor.toJson(events) +"}";
+		}
+
+		return out;
+	}
+	
+	@GET
+	@Path("/salesreport")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSalesReport() {
+		
+		List<VisitEventBean> events = emart.retrieveEvents();
 		
 		String out = "";
 		
@@ -48,7 +64,7 @@ public class AnalyticsController {
 			@QueryParam("day")String day, @QueryParam("bid")String
 			bid, @QueryParam("event")String event) {
 		
-		return "insertedRows:" +sis.addVisitEvent(ip, day, bid, event);
+		return "insertedRows:" +emart.addVisitEvent(ip, day, bid, event);
 	}
 	
 }
