@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -134,6 +136,50 @@ public class ItemDAO {
 			int iPrice = r.getInt("PRICE");
 			
 			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
+	
+	public List<String> retrieveAllBrands() throws SQLException{
+		
+		String query = "select distinct brand from item";
+		List<String> rv = new ArrayList<String>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			String bName = r.getString("BRAND");
+			
+			rv.add(bName);
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return rv;
+	}
+	
+	public List<String> retrieveAllType() throws SQLException{
+		
+		String query = "select distinct type from item";
+		List<String> rv = new ArrayList<String>();
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			String tName = r.getString("TYPE");
+			
+			rv.add(tName);
 		}
 		
 		r.close();
