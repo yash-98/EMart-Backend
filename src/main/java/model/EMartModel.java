@@ -563,6 +563,7 @@ public class EMartModel {
 	}
 	
 	public void checkReviewParameters(String userPostId, String reviewDesc) {
+		//TODO confirm that user post ID is correct
 		if (userPostId.length() < 1) {
 			System.out.println("User Post ID is not valid.");
 			throw new IllegalArgumentException();
