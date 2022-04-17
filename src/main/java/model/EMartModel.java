@@ -336,20 +336,24 @@ public class EMartModel {
 	
 	// PODAO based functions
 	public void checkPOParameters(String email, String firstname, String lastname, String status) {
+		boolean throwError = false;
 		if (email.length() < 1) {
 			System.out.println("Purchase order email is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (firstname.length() < 1) {
 			System.out.println("Purchase order firstname is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (lastname.length() < 1) {
 			System.out.println("Purchase order lastname is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (status.length() < 1) {
 			System.out.println("Purchase order status is not valid.");
+			throwError = true;
+		}
+		if (throwError) {
 			throw new IllegalArgumentException();
 		}
 	}
@@ -432,24 +436,27 @@ public class EMartModel {
 	// Item based functions
 	public void checkItemParameters(String name, String description, String type,
 			String brand) {
+		boolean throwError = false;
 		if (name.length() < 1) {
 			System.out.println("Item name is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (description.length() < 1) {
 			System.out.println("Item Description is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (type.length() < 1) {
 			System.out.println("Item type is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (brand.length() < 1) {
 			System.out.println("Item brand is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		
-		
+		if(throwError) {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	public int insertItem(String name, String description, String type,
@@ -563,12 +570,16 @@ public class EMartModel {
 	}
 	
 	public void checkReviewParameters(String userPostId, String reviewDesc) {
+		boolean throwError = false;
 		if (userPostId.length() < 1) {
 			System.out.println("User Post ID is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (reviewDesc.length() < 1) {
 			System.out.println("Review Description is not valid.");
+			throwError = true;
+		}
+		if (throwError) {
 			throw new IllegalArgumentException();
 		}
 //		if (itemId.length() < 1) {
@@ -639,38 +650,46 @@ public class EMartModel {
 		}
 	}
 	
-	public void checkUserParamters(String email, String password, String firstname, String lastname, String phonenumber) {
+	public void checkUserParamters(String email, String password, String firstname, String lastname, String phonenumber, String role) {
+		boolean throwError = false;
 		if (email.length() < 1) {
 			System.out.println("Email is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (password.length() < 1) {
 			System.out.println("Entered password is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (firstname.length() < 1) {
 			System.out.println("Entered first name is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (lastname.length() < 1) {
 			System.out.println("Entered last name is not valid.");
-			throw new IllegalArgumentException();
+			throwError = true;
 		}
 		if (phonenumber.length() < 1 || phonenumber.length() > 10) {
 			System.out.println("Entered phonenumber is not valid.");
+			throwError = true;
+		}
+		if (!(role.equals("CUSTOMER") || role.equals("ADMIN"))) {
+			System.out.println("The entered user role is not valid.");
+			throwError = true;
+		}
+		if (throwError) {
 			throw new IllegalArgumentException();
 		}
 	}
 	
-	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String street, String province, String country, String zip) {
+	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String role, String street, String province, String country, String zip) {
 		try {
-			checkUserParamters(email, password, firstname, lastname, phonenumber);
+			checkUserParamters(email, password, firstname, lastname, phonenumber, role);
 			email = email.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			password = password.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			firstname = firstname.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			lastname = lastname.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			phonenumber = phonenumber.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			checkUserParamters(email, password, firstname, lastname, phonenumber);
+			checkUserParamters(email, password, firstname, lastname, phonenumber, role);
 			//TODO ADD IN ADDRESS INFORMATION FOR ADDUSER
 			int addId = addressData.retrieveByAll(street, province, country, zip);
 			
@@ -680,7 +699,7 @@ public class EMartModel {
 				addId = addressId;
 			}
 			
-			return userData.insertUser(email, password, firstname, lastname, phonenumber, addId);
+			return userData.insertUser(email, password, firstname, lastname, phonenumber, role, addId);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There was an error when trying to create/insert the user.");
