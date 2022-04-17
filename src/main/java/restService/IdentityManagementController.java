@@ -33,7 +33,7 @@ public class IdentityManagementController {
 	@GET
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getItemsByType(@HeaderParam("email") String email, @HeaderParam("password") String password) {
+	public String login(@HeaderParam("email") String email, @HeaderParam("password") String password) {
 		
 		String out = "";
 		
@@ -43,7 +43,7 @@ public class IdentityManagementController {
 			AuthBean auth = SecurityFilter.tokenGenerator(email);
 			
 			auth.setEmail(email);
-			//auth.setRole(user.role);
+			auth.setRole(user.getRole());
 			
 			out = jsonConvertor.toJson(auth);
 		}else {
@@ -55,7 +55,7 @@ public class IdentityManagementController {
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createStudent(@HeaderParam("email") String email, @HeaderParam("password") String password,
+	public String register(@HeaderParam("email") String email, @HeaderParam("password") String password,
 			@HeaderParam("firstname") String firstname, @HeaderParam("lastname") String lastname, @HeaderParam("phone") String phone,
 			@HeaderParam("role") String role, @HeaderParam("street") String street, @HeaderParam("province") String province,  
 			@HeaderParam("country") String country, @HeaderParam("zip") String zip) {
