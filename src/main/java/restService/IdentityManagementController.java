@@ -40,7 +40,7 @@ public class IdentityManagementController {
 		if(!emart.retrieveUserToAuthenticate(email, password).isEmpty()) {
 			
 			UserBean user = emart.retrieveUserToAuthenticate(email, password).get(email);
-			AuthBean auth = SecurityFilter.tokenGenerator();
+			AuthBean auth = SecurityFilter.tokenGenerator(email);
 			
 			auth.setEmail(email);
 			//auth.setRole(user.role);
