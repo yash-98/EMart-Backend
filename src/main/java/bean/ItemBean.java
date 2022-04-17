@@ -2,10 +2,11 @@ package bean;
 
 public class ItemBean {
 
-	private String bid, name, description, type, brand;
-	private int quantity, price;
+	private String name, description, type, brand;
+	private int quantity, bid;
+	private double price;
 	
-	public ItemBean(String bid, String name, String description, String type, String brand, int quantity, int price) {
+	public ItemBean(int bid, String name, String description, String type, String brand, int quantity, double price) {
 		super();
 		this.bid = bid;
 		this.name = name;
@@ -16,11 +17,11 @@ public class ItemBean {
 		this.price = price;
 	}
 
-	public String getBid() {
+	public int getBid() {
 		return bid;
 	}
 
-	public void setBid(String bid) {
+	public void setBid(int bid) {
 		this.bid = bid;
 	}
 
@@ -64,11 +65,11 @@ public class ItemBean {
 		this.quantity = quantity;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	

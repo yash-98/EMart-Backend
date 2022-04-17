@@ -27,8 +27,8 @@ public class ItemDAO {
 		}
 	}
 	
-	public int insert(String bid, String name, String description, String type, String brand,
-			int quantity, int price)throws SQLException, NamingException {
+	public int insert(int bid, String name, String description, String type, String brand,
+			int quantity, double price)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
 		String preparedStatement ="insert into item values(?,?,?,?,?,?,?)";
@@ -39,45 +39,66 @@ public class ItemDAO {
 		
 		//here we set individual parameters through method calls
 		//first parameter is the place holder position in the ? //pattern above
-		stmt.setString(1, bid);
+		stmt.setInt(1, bid);
 		stmt.setString(2, name);
 		stmt.setString(3, description);
 		stmt.setString(4, type);
 		stmt.setString(5, brand);
 		stmt.setInt(6, quantity);
-		stmt.setInt(7, price);
+		stmt.setDouble(7, price);
 
 		return stmt.executeUpdate();
 	 }
 	
 	
-	public int delete(String bid)throws SQLException, NamingException{
+	public int delete(int bid)throws SQLException, NamingException{
 
 		String preparedStatement ="delete from item where bid=?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
-		stmt.setString(1, bid);
+		stmt.setInt(1, bid);
 		
 		return stmt.executeUpdate();
 	}
 	
-	public Map<String, ItemBean> retrieveAll() throws SQLException{
+	public int LastID() throws SQLException{
+		
+		String query = "select max(bid) from item";
+		int lastID = 0;
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			
+			lastID = r.getInt("BID");
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return lastID;
+	}
+	
+	public Map<Integer, ItemBean> retrieveAll() throws SQLException{
 		
 		String query = "select * from item";
-		Map<String, ItemBean> rv = new HashMap<String, ItemBean>();
+		Map<Integer, ItemBean> rv = new HashMap<Integer, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
 			
-			String iBid = r.getString("BID");
+			int iBid = r.getInt("BID");
 			String iName = r.getString("NAME");
 			String iDescription = r.getString("DESCRIPTION");
 			String iBrand = r.getString("BRAND");
 			String iType = r.getString("TYPE");
 			int iQty = r.getInt("QUANTITY");
-			int iPrice = r.getInt("PRICE");
+			double iPrice = r.getInt("PRICE");
 			
 			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
 		}
@@ -89,23 +110,23 @@ public class ItemDAO {
 		return rv;
 	}
 	
-	public Map<String, ItemBean> retrieveByType(String type) throws SQLException{
+	public Map<Integer, ItemBean> retrieveByType(String type) throws SQLException{
 		
 		String query = "select * from item where type like '%" + type +"%'";
-		Map<String, ItemBean> rv = new HashMap<String, ItemBean>();
+		Map<Integer, ItemBean> rv = new HashMap<Integer, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
 			
-			String iBid = r.getString("BID");
+			int iBid = r.getInt("BID");
 			String iName = r.getString("NAME");
 			String iDescription = r.getString("DESCRIPTION");
 			String iBrand = r.getString("BRAND");
 			String iType = r.getString("TYPE");
 			int iQty = r.getInt("QUANTITY");
-			int iPrice = r.getInt("PRICE");
+			double iPrice = r.getInt("PRICE");
 			
 			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
 		}
@@ -117,23 +138,23 @@ public class ItemDAO {
 		return rv;
 	}
 	
-	public Map<String, ItemBean> retrieveByBrand(String brand) throws SQLException{
+	public Map<Integer, ItemBean> retrieveByBrand(String brand) throws SQLException{
 		
 		String query = "select * from item where brand like '%" + brand +"%'";
-		Map<String, ItemBean> rv = new HashMap<String, ItemBean>();
+		Map<Integer, ItemBean> rv = new HashMap<Integer, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
 			
-			String iBid = r.getString("BID");
+			int iBid = r.getInt("BID");
 			String iName = r.getString("NAME");
 			String iDescription = r.getString("DESCRIPTION");
 			String iBrand = r.getString("BRAND");
 			String iType = r.getString("TYPE");
 			int iQty = r.getInt("QUANTITY");
-			int iPrice = r.getInt("PRICE");
+			double iPrice = r.getInt("PRICE");
 			
 			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
 		}
