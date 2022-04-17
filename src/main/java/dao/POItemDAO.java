@@ -25,7 +25,7 @@ public class POItemDAO {
 		}
 	}
 	
-	public int insert(int id, int price, String bid)throws SQLException, NamingException {
+	public int insert(int id, double price, int bid)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
 		String preparedStatement ="insert into POItem values(?,?,?)";
@@ -37,8 +37,8 @@ public class POItemDAO {
 		//here we set individual parameters through method calls
 		//first parameter is the place holder position in the ? //pattern above
 		stmt.setInt(1, id);
-		stmt.setInt(2, price);
-		stmt.setString(3, bid);
+		stmt.setDouble(2, price);
+		stmt.setInt(3, bid);
 
 		return stmt.executeUpdate();
 	 }
@@ -54,6 +54,27 @@ public class POItemDAO {
 		return stmt.executeUpdate();
 	}
 	
+	public int LastID() throws SQLException{
+		
+		String query = "select max(id) from POItem";
+		int lastID = 0;
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			
+			lastID = r.getInt("ID");
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return lastID;
+	}
+	
 	
 	public Map<Integer, POItemBean> retrieveAll() throws SQLException{
 		
@@ -66,8 +87,8 @@ public class POItemDAO {
 		while (r.next()) {
 			
 			int poiID = r.getInt("ID");
-			int poiPrice = r.getInt("PRICE");
-			String poiBid = r.getString("BID");
+			double poiPrice = r.getDouble("PRICE");
+			int poiBid = r.getInt("BID");
 			
 			rv.put(poiID, new POItemBean(poiID, poiPrice, poiBid));
 		}
@@ -90,8 +111,8 @@ public class POItemDAO {
 		while (r.next()) {
 			
 			int poiID = r.getInt("ID");
-			int poiPrice = r.getInt("PRICE");
-			String poiBid = r.getString("BID");
+			double poiPrice = r.getDouble("PRICE");
+			int poiBid = r.getInt("BID");
 			
 			rv.put(poiID, new POItemBean(poiID, poiPrice, poiBid));
 		}
@@ -103,7 +124,7 @@ public class POItemDAO {
 		return rv;
 	}
 	
-	public Map<Integer, POItemBean> retrieveByBid(String bid) throws SQLException{
+	public Map<Integer, POItemBean> retrieveByBid(int bid) throws SQLException{
 		
 		String query = "select * from POItem where bid=" +bid;
 		Map<Integer, POItemBean> rv = new HashMap<Integer, POItemBean>();
@@ -114,8 +135,8 @@ public class POItemDAO {
 		while (r.next()) {
 			
 			int poiID = r.getInt("ID");
-			int poiPrice = r.getInt("PRICE");
-			String poiBid = r.getString("BID");
+			double poiPrice = r.getDouble("PRICE");
+			int poiBid = r.getInt("BID");
 			
 			rv.put(poiID, new POItemBean(poiID, poiPrice, poiBid));
 		}
