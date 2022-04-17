@@ -17,7 +17,7 @@ import io.jsonwebtoken.security.Keys;
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
 @Provider
-@secureAuth
+@SecureAuth
 public class SecurityFilter implements ContainerRequestFilter{
 
 	private static final String BEARER = "Bearer";
@@ -46,10 +46,10 @@ public class SecurityFilter implements ContainerRequestFilter{
 			return;
 		}
 		
-		System.out.println("Authentication Successful");
+		System.out.println("Authentication Successful. Hello " +result.getBody().get("email"));
 	}
 	
-	public static AuthBean tokenGenerator() {
+	public static AuthBean tokenGenerator(String user) {
 		
 		String token = "";
 		Instant now = Instant.now();
@@ -57,9 +57,12 @@ public class SecurityFilter implements ContainerRequestFilter{
 		
 		token = Jwts.builder()
 				.setSubject("Identification")
+				.claim("email", user)
 				.setIssuedAt(Date.from(now))
 				.setExpiration(expiry)
 				.compact();
+		
+		token = SecurityFilter.BEARER +" " +token;
 		
 		return new AuthBean(token, String.format("%d-%d-%d", expiry.getYear(), expiry.getMonth(), expiry.getDate()));
 	}

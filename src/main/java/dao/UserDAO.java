@@ -40,8 +40,9 @@ public class UserDAO {
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
 			int address_id = r.getInt("ADDRESS_ID");
+			String role = r.getString("ROLE");
 			
-			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, address_id));
+			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
 		}
 		
 		
@@ -68,8 +69,9 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
 			int address_id = r.getInt("ADDRESS_ID");
-			
-			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, address_id));
+			String role = r.getString("ROLE");
+
+			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
 		}
 		
 		
@@ -80,10 +82,10 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		return rv;
 	}
 	
-	public int insertUser(String email, String password, String firstname, String lastname, String phonenumber, int address_id) 
+	public int insertUser(String email, String password, String firstname, String lastname, String phonenumber, String role, int address_id) 
 			throws SQLException, NamingException{
 		// query parameters are set as ?
-		String preparedStatement = "insert into Users values(?,?,?,?,?,?)";
+		String preparedStatement = "insert into Users values(?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatement to prevent SQL injection
@@ -95,7 +97,8 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		stmt.setString(3, firstname);
 		stmt.setString(4, lastname);
 		stmt.setString(5, phonenumber);
-		stmt.setInt(6, address_id);
+		stmt.setString(6, role);
+		stmt.setInt(7, address_id);
 		
 		return stmt.executeUpdate();
 	}
