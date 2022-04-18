@@ -45,6 +45,26 @@ public class ReviewDAO {
 		return lastID;
 	}
 	
+	public double getAvgReview(int itemId) throws SQLException{
+		
+		String query = "select AVG(rating) from Reviews where itemId = " + itemId;
+		double ret = -1.0;
+		System.out.println("Query: " + query);
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			ret = r.getDouble(1);
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return ret;
+	}
+	
 	public Map<Integer, ReviewBean> retrieveAll() throws SQLException{
 		
 		String query = "select * from Reviews";
