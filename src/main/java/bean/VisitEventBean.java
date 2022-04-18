@@ -7,6 +7,7 @@ public class VisitEventBean {
 	private int bid;
 
 	public VisitEventBean(String ipAddress, String day, int bid, String eventType) {
+		
 		super();
 		this.ipAddress = ipAddress;
 		this.day = day;

@@ -4,6 +4,7 @@ public class ReviewBean {
 	private int review_id, item_id;
 	private String review, userPost_id;
 	private double rating;
+	
 	public ReviewBean(int review_id, String userPost_id, String review, int item_id, double rating) {
 		super();
 		this.review_id = review_id;
@@ -12,6 +13,7 @@ public class ReviewBean {
 		this.item_id = item_id;
 		this.rating = rating;
 	}
+	
 	public int getReview_id() {
 		return review_id;
 	}
