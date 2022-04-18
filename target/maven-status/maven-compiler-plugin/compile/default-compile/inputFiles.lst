@@ -1,5 +1,6 @@
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\bean\ItemBean.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\dao\AddressDAO.java
+C:\Users\yashdesai\Documents\4413\Project\src\main\java\Authentication\CORS.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\bean\POBean.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\dao\UserDAO.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\dao\VisitEventDAO.java
@@ -13,6 +14,7 @@ C:\Users\yashdesai\Documents\4413\Project\src\main\java\bean\UserBean.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\bean\ReviewBean.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\dao\PODAO.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\restService\CatalogController.java
+C:\Users\yashdesai\Documents\4413\Project\src\main\java\Authentication\CORSFilter.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\dao\POItemDAO.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\model\EMartModel.java
 C:\Users\yashdesai\Documents\4413\Project\src\main\java\restService\ReviewController.java
