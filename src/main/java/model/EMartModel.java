@@ -111,8 +111,11 @@ public class EMartModel {
 			day = day.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 //			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			eventType = eventType.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			
 			int tempbid = Integer.parseInt(bid);
+			
 			return this.visitData.insert(ipAddress, day, tempbid, eventType);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There wan an error when trying to insert the visit Event Data.");
@@ -560,7 +563,9 @@ public class EMartModel {
 				throw new IllegalArgumentException();
 			
 			int tempid = Integer.parseInt(itemId_requested);
+			
 			return reviewData.retrieveAllByItem(tempid);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("The itemId of the reviews requested was invalid.");
