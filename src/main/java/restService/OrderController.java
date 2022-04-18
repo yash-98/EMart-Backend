@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import Authentication.SecureAuth;
 import model.EMartModel;
 import bean.ItemBean;
+import bean.UserBean;
 
 @Path("order") //this is the path of the resource
 @SecureAuth
@@ -32,44 +33,56 @@ public class OrderController {
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String createOrder(@QueryParam("email") String email, @HeaderParam("street") String street, 
-			@HeaderParam("province") String province,  @HeaderParam("country") String country, 
-			@HeaderParam("zip") String zip) {
+	public String createOrder(String body) {
+		
+		Map json = jsonConvertor.fromJson(body, Map.class);
+		String email = (String) json.get("email");
+		UserBean user = emart.retrieveUser(email).get(email);
+		Map shipping = (Map<String, String>)json.get("shipping");
+		Map billing = (Map<String, String>)json.get("billing");
+
+		
+		int sAddId = emart.retrieveAllAddressesByAllParameters((String)shipping.get("street"), (String)shipping.get("province")
+				, (String)shipping.get("country"), (String)shipping.get("zip"));
+		int bAddId = emart.retrieveAllAddressesByAllParameters((String)billing.get("street"), (String)billing.get("province")
+				, (String)billing.get("country"), (String)billing.get("zip"));
+		
+		sAddId = sAddId!=-1?sAddId:emart.insertAddress((String)shipping.get("street"), (String)shipping.get("province")
+				, (String)shipping.get("country"), (String)shipping.get("zip"));
+		bAddId = bAddId!=-1?bAddId:emart.insertAddress((String)billing.get("street"), (String)billing.get("province")
+				, (String)billing.get("country"), (String)billing.get("zip"));
+		
+		emart.insertPurchaseOrder(Integer.toString(sAddId), Integer.toString(bAddId), user.getUserId(), user.getFirstname(), user.getLastname(), "ORDERING");
 		
 		String out = "";
-
 		return out;
 	}
 	
-	@GET
-	@Path("/itemsByBrand")
+	@POST
+	@Path("/addItems")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getItemsByBrand(@QueryParam("brand") String brand) {
+	public String addItemsToPO(@QueryParam("PurchaseOrderID") String poID, @QueryParam("items") String items) {
 		
-		Map<Integer, ItemBean> items = emart.retrieveItemByBrand(brand);
+		String[] itemPair = items.split(",");
 		
-		String out = "";
-		
-		if(items != null && !items.isEmpty()) {
-			out = "{ \"items\" : " +jsonConvertor.toJson(items) +"}";
+		for (String i : itemPair) {
+			
+			String bid = i.split("-")[0];
+			String price = i.split("-")[1];
+			emart.insertPOItem(Integer.parseInt(poID), price, bid);
 		}
-
-		return out;
+		
+		return "{ \"Result\" : \"Added all\" }";
 	}
 	
-	@GET
-	@Path("/itemsByType")
+	@POST
+	@Path("/process")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getItemsByType(@QueryParam("type") String type) {
+	public String processOrder(@QueryParam("PurchaseOrderID") String poID) {
 		
-		Map<Integer, ItemBean> items = emart.retrieveItemByType(type);
+		String status = emart.processOrder(Integer.parseInt(poID));
 		
-		String out = "";
-		
-		if(items != null && !items.isEmpty()) {
-			out = "{ \"items\" : " +jsonConvertor.toJson(items) +"}";
-		}
-
+		String out = "{ \"Order Status\": \"" +status +"\" }";
 		return out;
 	}
 	

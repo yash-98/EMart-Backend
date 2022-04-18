@@ -20,6 +20,7 @@ public class EMartModel {
 	private int reviewId;
 	private int addressId;
 	private int itemId, bId, pOId, poitemId;
+	private int ordersProcessed;
 	
 	
 	private static EMartModel instance;
@@ -60,6 +61,7 @@ public class EMartModel {
 			this.bId = 0; // Item ID and bid are the same, why 2 vars?
 			this.pOId = poData.LastID();
 			this.poitemId = 0; //The Item ID will be provided as part of arg right.
+			this.ordersProcessed = 0;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -163,16 +165,16 @@ public class EMartModel {
 		}
 	}
 	
-	public int insertPOItem(String price, String bid) {
+	public int insertPOItem(int poID, String price, String bid) {
 		try {
-			this.poitemId++;
+			
 			checkPOItemParamters(price, bid);
 			double tempPrice = Double.parseDouble(price);
 			int tempBid = Integer.parseInt(bid);
-			return this.poitemData.insert(this.poitemId, tempPrice, tempBid);
+			return this.poitemData.insert(poID, tempPrice, tempBid);
 		} catch (Exception e) {
 			// TODO: handle exception
-			this.poitemId--;
+
 			System.out.println("There was an error when trying to insert the POItem.");
 			return 0;
 		}
@@ -269,7 +271,9 @@ public class EMartModel {
 			province = province.replaceAll(" ", "___").replaceAll("[\"\"'']", "");
 			country = country.replaceAll(" ", "___").replaceAll("[\"\"'']", "");
 			zip = zip.replaceAll(" ", "___").replaceAll("[\"\"'']", "");
-			return this.addressData.insert(addressId, street, province, country, zip);
+			this.addressData.insert(addressId, street, province, country, zip);
+			
+			return this.addressId;
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.addressId--;
@@ -358,22 +362,40 @@ public class EMartModel {
 		}
 	}
 	
-	public int insertPurchaseOrder(String addressId, String email, String firstname, String lastname, String status) {
+	public int insertPurchaseOrder(String shippingAddressId, String billingAddressId, String email, String firstname, String lastname, String status) {
 		try {
 			this.pOId++;
-			int addrId = Integer.parseInt(addressId);
+			int saddrId = Integer.parseInt(shippingAddressId);
+			int baddrId = Integer.parseInt(billingAddressId);
 			checkPOParameters(email, firstname, lastname, status);
 			email = email.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			firstname = firstname.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			lastname = lastname.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			status = status.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			
-			return this.poData.insert(pOId, addrId, email, lastname, firstname, status);
+			return this.poData.insert(pOId, saddrId, baddrId, email, lastname, firstname, status);
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.pOId--;
 			System.out.println("There was an error trying to insert the Purchase Order.");
 			return 0;
+		}
+	}
+	
+	public String processOrder(int poId) {
+		
+		try {
+			this.ordersProcessed++;
+			
+			String status = this.ordersProcessed%3==0?"Declined":"Processed";
+			
+			poData.changeOrderStatus(poId, status);
+			
+			return status;
+		}catch (Exception e) {
+			
+			System.out.println("There was a problem trying to process the Purchase Order.");
+			return "Error, Try Again";
 		}
 	}
 	
@@ -695,8 +717,7 @@ public class EMartModel {
 			
 			if(addId == -1) {
 				
-				insertAddress(street, province, country, zip);
-				addId = addressId;
+				addId = insertAddress(street, province, country, zip);
 			}
 			
 			return userData.insertUser(email, password, firstname, lastname, phonenumber, role, addId);
