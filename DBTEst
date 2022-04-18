@@ -9,11 +9,9 @@ price DOUBLE NOT NULL
 );
 /*insert data into item table*/
 INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (0, 'Little 
-Prince', 'a book for all ages', 'book', 'Penguin', 20, 100.0);
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (1, 'iPad', 'a 
-device for personal use', 'computer', 'Apple', 500, 100.0);
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (2, 'laptopm', 'a 
-device for personal use', 'computer', 'Apple', 1500, 100.0);
+Prince', 'a___book___for___all___ages', 'book', 'Penguin', 20, 100.0);
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (1, 'iPad', 'a___device___for___personal___use', 'computer', 'Apple', 500, 100.0);
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (2, 'laptopm', 'a___device___for___personal___use', 'computer', 'Apple', 1500, 100.0);
 
 
 
@@ -139,7 +137,7 @@ SELECT * FROM Address;
 SELECT * FROM Item;
 SELECT * FROM Reviews;
 SELECT * FROM Users;
-
+/*
 --select * from Reviews where itemId = 0;
 
 --insert into Reviews values(1, 'yashd@gmail.com', 'This___product___was___amazing.', 0, 5.0);
@@ -149,6 +147,6 @@ SELECT * FROM Users;
 --DROP TABLE POItem;
 --DROP TABLE PO;
 --DROP TABLE Address;
---DROP TABLE Item;
 --DROP TABLE Reviews;
---DROP TABLE Users;
+--DROP TABLE Item;
+--DROP TABLE Users; */
