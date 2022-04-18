@@ -3,7 +3,7 @@
   <display-name>E-Mart</display-name>
   
   	<servlet>
-    	<servlet-name>students</servlet-name>
+    	<servlet-name>emart</servlet-name>
      	<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
      	<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
@@ -13,8 +13,8 @@
 	</servlet>
 
 	<servlet-mapping>
-	     <servlet-name>students</servlet-name>
-    	 <url-pattern>/rest/*</url-pattern>
+	     <servlet-name>emart</servlet-name>
+    	 <url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
   <error-page>
