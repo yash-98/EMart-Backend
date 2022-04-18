@@ -17,6 +17,14 @@
 		  <version>2.8.9</version>
 	  </dependency>
 	  
+	  	<!-- FOR AWS DB -->
+	  <dependency>
+		<groupId>software.aws.rds</groupId>
+		<artifactId>aws-mysql-jdbc</artifactId>
+		<version>1.0.0</version>
+	  </dependency>
+
+	  
 	    <!--  For JWT  -->
 	  <dependency>
 		  <groupId>io.jsonwebtoken</groupId>
