@@ -28,10 +28,10 @@ public class ItemDAO {
 	}
 	
 	public int insert(int bid, String name, String description, String type, String brand,
-			int quantity, double price)throws SQLException, NamingException {
+			int quantity, double price, String link)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
-		String preparedStatement ="insert into Item values(?,?,?,?,?,?,?)";
+		String preparedStatement ="insert into Item values(?,?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatements prevent SQL injection
@@ -46,6 +46,7 @@ public class ItemDAO {
 		stmt.setString(5, brand);
 		stmt.setInt(6, quantity);
 		stmt.setDouble(7, price);
+		stmt.setString(8, link);
 
 		return stmt.executeUpdate();
 	 }
@@ -99,8 +100,9 @@ public class ItemDAO {
 			String iType = r.getString("TYPE");
 			int iQty = r.getInt("QUANTITY");
 			double iPrice = r.getInt("PRICE");
+			String link = r.getString("LINK");
 			
-			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
+			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice, link));
 		}
 		
 		r.close();
@@ -127,9 +129,10 @@ public class ItemDAO {
 			String iType = r.getString("TYPE");
 			int iQty = r.getInt("QUANTITY");
 			double iPrice = r.getInt("PRICE");
+			String link = r.getString("LINK");
 			
-			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
-		}
+			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice, link));
+			}
 		
 		r.close();
 		p.close();
@@ -155,8 +158,9 @@ public class ItemDAO {
 			String iType = r.getString("TYPE");
 			int iQty = r.getInt("QUANTITY");
 			double iPrice = r.getInt("PRICE");
+			String link = r.getString("LINK");
 			
-			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice));
+			rv.put(iBid, new ItemBean(iBid, iName, iDescription, iType, iBrand, iQty, iPrice, link));
 		}
 		
 		r.close();

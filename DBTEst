@@ -5,14 +5,13 @@ description VARCHAR(60) NOT NULL,
 type VARCHAR(60) NOT NULL,
 brand VARCHAR(60) NOT NULL,
 quantity INT NOT NULL,
-price DOUBLE NOT NULL
+price DOUBLE NOT NULL,
+link VARCHAR(1500)
 );
 /*insert data into item table*/
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (0, 'Little 
-Prince', 'a___book___for___all___ages', 'book', 'Penguin', 20, 100.0);
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (1, 'iPad', 'a___device___for___personal___use', 'computer', 'Apple', 500, 100.0);
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (2, 'laptopm', 'a___device___for___personal___use', 'computer', 'Apple', 1500, 100.0);
-
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity, link) VALUES (0, 'Ratchet___&___Clank___Rifts___Apart', 'A___PS5___game.', 'PS5', 'Playstation', 20, 100.0, 'https://image.api.playstation.com/vulcan/ap/rnd/202101/2921/DwVjpbKOsFOyPdNzmSTSWuxG.png');
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity, link) VALUES (1, 'Halo', 'New___Halo___game___for___Xbox', 'XBox', 'Xbox', 500, 100.0, 'https://upload.wikimedia.org/wikipedia/en/1/14/Halo_Infinite.png');
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity, link) VALUES (2, 'Pokemon___Arceus', 'Latest___pokemon___game___for___Switch', 'Switch', 'Nintendo', 1500, 100.0, 'https://i5.walmartimages.ca/images/Enlarge/339/343/6000204339343.jpg');
 
 
 /*create an addtess table*/
@@ -40,15 +39,18 @@ password VARCHAR(40) NOT NULL,
 firstname VARCHAR(40) NOT NULL,
 lastname VARCHAR(40) NOT NULL,
 phonenumber VARCHAR(40) NOT NULL,
-addressid INT NOT NULL,
+addressidship INT NOT NULL,
+addressidbill INT NOT NULL,
 role VARCHAR(40) NOT NULL,
-PRIMARY KEY(user_id)
+PRIMARY KEY(user_id),
+FOREIGN KEY (addressidship) REFERENCES Address (id),
+FOREIGN KEY (addressidbill) REFERENCES Address (id)
 );
 
-INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, role, addressid)
-	VALUES ('satin360@gmail.com', '1234', 'Satinder', 'Sikand', '1234567890','CUSTOMER', 2);
-INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, role, addressid)
-	VALUES ('yashd@gmail.com', '4567', 'Yash', 'Desai', '0123456789','CUSTOMER', 1);
+INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, role, addressidship, addressidbill)
+	VALUES ('satin360@gmail.com', '1234', 'Satinder', 'Sikand', '1234567890','CUSTOMER', 2,2);
+INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, role, addressidship, addressidbill)
+	VALUES ('yashd@gmail.com', '4567', 'Yash', 'Desai', '0123456789','CUSTOMER', 1,1);
 
 /* create Purchase Order(PO) table */
 /* Purchase Order
@@ -131,6 +133,8 @@ FOREIGN KEY(itemid) REFERENCES Item(bid)
 
 INSERT into Reviews (reviewid, userpostid, review, itemid, rating) VALUES
 	(0, 'satin360@gmail.com', 'This is a test review.', 0, 4.5);
+INSERT into Reviews (reviewid, userpostid, review, itemid, rating) VALUES
+	(1, 'yashd@gmail.com', 'This is a great item.', 0, 5.0);
 
 /* check the content of the tables*/
 SELECT * FROM VisitEvent;
@@ -140,6 +144,8 @@ SELECT * FROM Address;
 SELECT * FROM Item;
 SELECT * FROM Reviews;
 SELECT * FROM Users;
+--select AVG(rating) from Reviews where itemId = 0;
+
 --select * from Users where user_id = 'satin360@gmail.com' and password = '1234';
 
 

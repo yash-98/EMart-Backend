@@ -513,7 +513,7 @@ public class EMartModel {
 	}
 	
 	public int insertItem(String name, String description, String type,
-			String brand, String quantity, String price){
+			String brand, String quantity, String price, String link){
 		try {
 			this.bId++;
 			checkItemParameters(name, description, type, brand);
@@ -526,7 +526,7 @@ public class EMartModel {
 			Integer qnty = Integer.parseInt(quantity);
 			Double priceItem = Double.parseDouble(price);
 			
-			return this.itemData.insert(bId, name, description, type, brand, qnty, priceItem);
+			return this.itemData.insert(bId, name, description, type, brand, qnty, priceItem, link);
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.bId--;
@@ -744,7 +744,8 @@ public class EMartModel {
 		}
 	}
 	
-	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String role, String street, String province, String country, String zip) {
+	public int addUser(String email, String password, String firstname, String lastname, String phonenumber, String role, 
+			String streetShip, String provinceShip, String countryShip, String zipShip, String streetBill, String provinceBill, String countryBill, String zipBill) {
 		try {
 			checkUserParamters(email, password, firstname, lastname, phonenumber, role);
 			email = email.replaceAll(" ", "").replaceAll("[\"\"'']", "");
@@ -754,19 +755,25 @@ public class EMartModel {
 			phonenumber = phonenumber.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			checkUserParamters(email, password, firstname, lastname, phonenumber, role);
 			//TODO ADD IN ADDRESS INFORMATION FOR ADDUSER
-			int addId = addressData.retrieveByAll(street, province, country, zip);
+			int addIdShip = addressData.retrieveByAll(streetShip, provinceShip, countryShip, zipShip);
 			
-			if(addId == -1) {
+			if(addIdShip == -1) {
 				
-				addId = insertAddress(street, province, country, zip);
+				addIdShip = insertAddress(streetShip, provinceShip, countryShip, zipShip);
+			}
+			int addIdBill = addressData.retrieveByAll(streetBill, provinceBill, countryBill, zipBill);
+			
+			if(addIdBill == -1) {
+				
+				addIdBill = insertAddress(streetBill, provinceBill, countryBill, zipBill);
 			}
 			
-			return userData.insertUser(email, password, firstname, lastname, phonenumber, role, addId);
+			return userData.insertUser(email, password, firstname, lastname, phonenumber, role, addIdShip, addIdBill);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There was an error when trying to create/insert the user.");
 			e.printStackTrace();
-			return 0;
+			return -1;
 		}
 	}
 	
