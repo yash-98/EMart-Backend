@@ -2,17 +2,18 @@ package bean;
 
 public class UserBean {
 	private String userId, password, firstname, lastname, phoneNumber, role;
-	private int addressId;
+	private int addressIdShip, addressIdBill;
 
 	public UserBean(String userId, String password, String firstname, String lastname,
-			String phoneNumber, String role, int addressId) {
+			String phoneNumber, String role, int addressIdShip, int addressIdBill) {
 		super();
 		this.userId = userId;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.phoneNumber = phoneNumber;
-		this.addressId = addressId;
+		this.addressIdShip = addressIdShip;
+		this.addressIdBill = addressIdBill;
 		this.role = role;
 	}
 	
@@ -46,13 +47,23 @@ public class UserBean {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	public int getAddressId() {
-		return addressId;
-	}
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
 	
+	public int getAddressIdShip() {
+		return addressIdShip;
+	}
+
+	public void setAddressIdShip(int addressIdShip) {
+		this.addressIdShip = addressIdShip;
+	}
+
+	public int getAddressIdBill() {
+		return addressIdBill;
+	}
+
+	public void setAddressIdBill(int addressIdBill) {
+		this.addressIdBill = addressIdBill;
+	}
+
 	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}

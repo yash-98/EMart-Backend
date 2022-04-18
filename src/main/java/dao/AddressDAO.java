@@ -131,9 +131,9 @@ public class AddressDAO {
 	
 	public int retrieveByAll(String street, String province, String country, String zip) throws SQLException{
 		
-		String query = "select * from Address where street like '%" +street 
-				+"%' and province like '%" +province +"%'" +" and country like '%" +country +"%'" 
-				+" and zip like '%" +zip +"%'";
+		String query = "select * from Address where street = '" +street 
+				+"' and province = '" +province +"'" +" and country = '" +country +"'" 
+				+" and zip = '" +zip +"'";
 		int addId = -1;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
