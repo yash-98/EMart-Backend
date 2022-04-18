@@ -1,9 +1,11 @@
 package bean;
 
 public class ReviewBean {
-	private String review_id, userPost_id, review, item_id;
+	private int review_id, item_id;
+	private String review, userPost_id;
 	private double rating;
-	public ReviewBean(String review_id, String userPost_id, String review, String item_id, double rating) {
+	
+	public ReviewBean(int review_id, String userPost_id, String review, int item_id, double rating) {
 		super();
 		this.review_id = review_id;
 		this.userPost_id = userPost_id;
@@ -11,10 +13,11 @@ public class ReviewBean {
 		this.item_id = item_id;
 		this.rating = rating;
 	}
-	public String getReview_id() {
+	
+	public int getReview_id() {
 		return review_id;
 	}
-	public void setReview_id(String review_id) {
+	public void setReview_id(int review_id) {
 		this.review_id = review_id;
 	}
 	public String getUserPost_id() {
@@ -29,10 +32,10 @@ public class ReviewBean {
 	public void setReview(String review) {
 		this.review = review;
 	}
-	public String getItem_id() {
+	public int getItem_id() {
 		return item_id;
 	}
-	public void setItem_id(String item_id) {
+	public void setItem_id(int item_id) {
 		this.item_id = item_id;
 	}
 	public double getRating() {

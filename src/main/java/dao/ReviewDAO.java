@@ -24,19 +24,60 @@ public class ReviewDAO {
 		}
 	}
 	
-	public Map<String, ReviewBean> retrieveAll() throws SQLException{
+	public int LastID() throws SQLException{
+		
+		String query = "select max(reviewid) as reviewid from Reviews";
+		int lastID = 0;
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			
+			
+			lastID = r.getInt("reviewid");
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return lastID;
+	}
+	
+	public double getAvgReview(int itemId) throws SQLException{
+		
+		String query = "select AVG(rating) from Reviews where itemId = " + itemId;
+		double ret = -1.0;
+		System.out.println("Query: " + query);
+		Connection con = this.ds.getConnection();
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		
+		while (r.next()) {
+			ret = r.getDouble(1);
+		}
+		
+		r.close();
+		p.close();
+		con.close();
+		
+		return ret;
+	}
+	
+	public Map<Integer, ReviewBean> retrieveAll() throws SQLException{
 		
 		String query = "select * from Reviews";
-		Map<String, ReviewBean> rv = new HashMap<String, ReviewBean>();
+		Map<Integer, ReviewBean> rv = new HashMap<Integer, ReviewBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
-			String reviewId = r.getString("REVIEWId");
+			int reviewId = r.getInt("REVIEWId");
 			String userPostId = r.getString("USERPOSTId");
 			String reviewDesc = r.getString("REVIEW");
-			String itemId = r.getString("ITEMId");
+			int itemId = r.getInt("ITEMId");
 			double rating = r.getInt("RATING");
 			
 			rv.put(reviewId, new ReviewBean(reviewId, userPostId, reviewDesc, itemId, rating));
@@ -49,19 +90,20 @@ public class ReviewDAO {
 		return rv;
 	}
 	
-	public Map<String, ReviewBean> retrieveAllByItem(String itemIdRequested) throws SQLException{
+	public Map<Integer, ReviewBean> retrieveAllByItem(int itemIdRequested) throws SQLException{
 		
-		String query = "select * from Reviews where itemId like '%" + itemIdRequested +"%'";
-		Map<String, ReviewBean> rv = new HashMap<String, ReviewBean>();
+		String query = "select * from Reviews where itemId = " + itemIdRequested +"";
+		System.out.println("Query: " + query);
+		Map<Integer, ReviewBean> rv = new HashMap<Integer, ReviewBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
 		
 		while (r.next()) {
-			String reviewId = r.getString("REVIEWId");
+			int reviewId = r.getInt("REVIEWId");
 			String userPostId = r.getString("USERPOSTId");
 			String reviewDesc = r.getString("REVIEW");
-			String itemId = r.getString("ITEMId");
+			int itemId = r.getInt("ITEMId");
 			double rating = r.getInt("RATING");
 			
 			rv.put(reviewId, new ReviewBean(reviewId, userPostId, reviewDesc, itemId, rating));
@@ -71,25 +113,28 @@ public class ReviewDAO {
 		p.close();
 		con.close();
 		
+		
 		return rv;
 	}
 	
-	public int insertReview (String reviewId, String userPostId, String reviewDesc, String itemId, double rating) 
+	public int insertReview (int reviewId, String userPostId, String reviewDesc, int itemId, double rating) 
 			throws SQLException, NamingException{
 		// query parameters are set as ?
 		String preparedStatement = "insert into Reviews values(?,?,?,?,?)";
+		System.out.println("Inserting review");
+		System.out.println("Query: " + preparedStatement + " " + reviewId + " " + userPostId + " " + reviewDesc + " " + itemId + " "+rating);
+
 		Connection con = this.ds.getConnection();
-		
 		//PreparedStatement to prevent SQL injection
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
-		
+
 		// Set individual parameters through method calls
-		stmt.setString(1, reviewId);
+		stmt.setInt(1, reviewId);
 		stmt.setString(2, userPostId);
 		stmt.setString(3, reviewDesc);
-		stmt.setString(4, itemId);
+		stmt.setInt(4, itemId);
 		stmt.setDouble(5, rating);
-		
+
 		return stmt.executeUpdate();
 	}
 

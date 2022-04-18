@@ -2,10 +2,10 @@ package bean;
 
 public class POItemBean {
 
-	private int id, price;
-	private String bid;
+	private int id, bid;
+	private double price;
 	
-	public POItemBean(int id, int price, String bid) {
+	public POItemBean(int id, double price, int bid) {
 		super();
 		this.id = id;
 		this.price = price;
@@ -20,19 +20,19 @@ public class POItemBean {
 		this.id = id;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
-	public String getBid() {
+	public int getBid() {
 		return bid;
 	}
 
-	public void setBid(String bid) {
+	public void setBid(int bid) {
 		this.bid = bid;
 	}
 	

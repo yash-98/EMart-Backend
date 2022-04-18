@@ -3,9 +3,11 @@ package bean;
 public class VisitEventBean {
 
 	
-	private String ipAddress, day, bid, eventType;
+	private String ipAddress, day, eventType;
+	private int bid;
 
-	public VisitEventBean(String ipAddress, String day, String bid, String eventType) {
+	public VisitEventBean(String ipAddress, String day, int bid, String eventType) {
+		
 		super();
 		this.ipAddress = ipAddress;
 		this.day = day;
@@ -29,11 +31,11 @@ public class VisitEventBean {
 		this.day = day;
 	}
 
-	public String getBid() {
+	public int getBid() {
 		return bid;
 	}
 
-	public void setBid(String bid) {
+	public void setBid(int bid) {
 		this.bid = bid;
 	}
 
