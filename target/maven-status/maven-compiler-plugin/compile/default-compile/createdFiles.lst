@@ -14,6 +14,7 @@ bean\VisitEventBean.class
 dao\POItemDAO.class
 restService\CatalogController$1.class
 bean\ReviewBean.class
+restService\ReviewController.class
 bean\AuthBean.class
 dao\UserDAO.class
 bean\POItemBean.class

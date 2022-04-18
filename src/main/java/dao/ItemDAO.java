@@ -31,7 +31,7 @@ public class ItemDAO {
 			int quantity, double price)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
-		String preparedStatement ="insert into item values(?,?,?,?,?,?,?)";
+		String preparedStatement ="insert into Item values(?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatements prevent SQL injection
@@ -53,7 +53,7 @@ public class ItemDAO {
 	
 	public int delete(int bid)throws SQLException, NamingException{
 
-		String preparedStatement ="delete from item where bid=?";
+		String preparedStatement ="delete from Item where bid=?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
 		stmt.setInt(1, bid);
@@ -63,7 +63,7 @@ public class ItemDAO {
 	
 	public int LastID() throws SQLException{
 		
-		String query = "select max(bid) as BID from item";
+		String query = "select max(bid) as BID from Item";
 		int lastID = 0;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -84,7 +84,7 @@ public class ItemDAO {
 	
 	public Map<Integer, ItemBean> retrieveAll() throws SQLException{
 		
-		String query = "select * from item";
+		String query = "select * from Item";
 		Map<Integer, ItemBean> rv = new HashMap<Integer, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -112,7 +112,7 @@ public class ItemDAO {
 	
 	public Map<Integer, ItemBean> retrieveByType(String type) throws SQLException{
 		
-		String query = "select * from item where type like '%" + type +"%'";
+		String query = "select * from Item where type like '%" + type +"%'";
 		Map<Integer, ItemBean> rv = new HashMap<Integer, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -140,7 +140,7 @@ public class ItemDAO {
 	
 	public Map<Integer, ItemBean> retrieveByBrand(String brand) throws SQLException{
 		
-		String query = "select * from item where brand like '%" + brand +"%'";
+		String query = "select * from Item where brand like '%" + brand +"%'";
 		Map<Integer, ItemBean> rv = new HashMap<Integer, ItemBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -168,7 +168,7 @@ public class ItemDAO {
 	
 	public List<String> retrieveAllBrands() throws SQLException{
 		
-		String query = "select distinct brand from item";
+		String query = "select distinct brand from Item";
 		List<String> rv = new ArrayList<String>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -190,7 +190,7 @@ public class ItemDAO {
 	
 	public List<String> retrieveAllType() throws SQLException{
 		
-		String query = "select distinct type from item";
+		String query = "select distinct type from Item";
 		List<String> rv = new ArrayList<String>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);

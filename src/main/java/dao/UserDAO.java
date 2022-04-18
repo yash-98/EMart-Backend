@@ -26,7 +26,7 @@ public class UserDAO {
 	
 	public Map<String, UserBean> retrieveUserAuth(String user_id, String password) throws SQLException{
 		
-		String query = "select * from users where user_id = '" + user_id +"' and password = '" + password +"'";
+		String query = "select * from Users where user_id = '" + user_id +"' and password = '" + password +"'";
 		System.out.println("Retrieve userAuth");
 		System.out.println(query);
 
