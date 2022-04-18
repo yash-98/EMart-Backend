@@ -41,13 +41,14 @@ firstname VARCHAR(40) NOT NULL,
 lastname VARCHAR(40) NOT NULL,
 phonenumber VARCHAR(40) NOT NULL,
 addressid INT NOT NULL,
+role VARCHAR(15) NOT NULL,
 PRIMARY KEY(user_id)
 );
 
-INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, addressid)
-	VALUES ('satin360@gmail.com', '1234', 'Satinder', 'Sikand', '1234567890', 1);
-INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, addressid)
-	VALUES ('yashd@gmail.com', '4567', 'Yash', 'Desai', '0123456789', 2);
+INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, role, addressid)
+	VALUES ('satin360@gmail.com', '1234', 'Satinder', 'Sikand', '1234567890','CUSTOMER', 2);
+INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, role, addressid)
+	VALUES ('yashd@gmail.com', '4567', 'Yash', 'Desai', '0123456789','CUSTOMER', 1);
 
 /* create Purchase Order(PO) table */
 /* Purchase Order
@@ -137,7 +138,9 @@ SELECT * FROM Address;
 SELECT * FROM Item;
 SELECT * FROM Reviews;
 SELECT * FROM Users;
-/*
+--select * from Users where user_id = 'satin360@gmail.com' and password = '1234';
+
+
 --select * from Reviews where itemId = 0;
 
 --insert into Reviews values(1, 'yashd@gmail.com', 'This___product___was___amazing.', 0, 5.0);
@@ -149,4 +152,4 @@ SELECT * FROM Users;
 --DROP TABLE Address;
 --DROP TABLE Reviews;
 --DROP TABLE Item;
---DROP TABLE Users; */
+--DROP TABLE Users; 
