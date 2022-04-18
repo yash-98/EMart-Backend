@@ -727,6 +727,7 @@ public class EMartModel {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There was an error when trying to create/insert the user.");
+			e.printStackTrace();
 			return 0;
 		}
 	}

@@ -41,7 +41,7 @@ firstname VARCHAR(40) NOT NULL,
 lastname VARCHAR(40) NOT NULL,
 phonenumber VARCHAR(40) NOT NULL,
 addressid INT NOT NULL,
-role VARCHAR(15) NOT NULL,
+role VARCHAR(40) NOT NULL,
 PRIMARY KEY(user_id)
 );
 
@@ -66,7 +66,8 @@ shippingaddress INT NOT NULL,
 billingaddress INT NOT NULL,
 email VARCHAR(40) NOT NULL,
 PRIMARY KEY(id),
-FOREIGN KEY (address) REFERENCES Address (id),
+FOREIGN KEY (shippingaddress) REFERENCES Address (id),
+FOREIGN KEY (billingaddress) REFERENCES Address (id),
 FOREIGN KEY (email) REFERENCES Users(user_id)
 );
 /*

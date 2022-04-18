@@ -98,7 +98,7 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		// query parameters are set as ?
 		String preparedStatement = "insert into Users values(?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
-		System.out.println("Inserting User info:\n Query: " + preparedStatement + " -" + email + " -" + firstname +  " -" + lastname + " -" + phonenumber + " -" + address_id);
+		System.out.println("Inserting User info:\n Query: " + preparedStatement + " -" + email + " -" + firstname +  " -" + lastname + " -" + phonenumber + " -" + role + " -" + address_id);
 		//PreparedStatement to prevent SQL injection
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
 		
@@ -108,8 +108,8 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		stmt.setString(3, firstname);
 		stmt.setString(4, lastname);
 		stmt.setString(5, phonenumber);
-		stmt.setString(6, role);
-		stmt.setInt(7, address_id);
+		stmt.setString(7, role);
+		stmt.setInt(6, address_id);
 		
 		return stmt.executeUpdate();
 	}
