@@ -26,7 +26,9 @@ public class UserDAO {
 	
 	public Map<String, UserBean> retrieveUserAuth(String user_id, String password) throws SQLException{
 		
-		String query = "select * from Users where user_id = '%" + user_id +"%'and password = '%" + password +"%'";
+		String query = "select * from Users where user_id = '" + user_id +"' and password = '" + password +"'";
+		System.out.println("Retrieve userAuth");
+		System.out.println(query);
 		Map<String, UserBean> rv = new HashMap<String, UserBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -54,7 +56,9 @@ public class UserDAO {
 	
 public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		
-		String query = "select * from Users where user_id = '%" + user_id +"%'";
+		String query = "select * from Users where user_id = '" + user_id +"'";
+		System.out.println("Retrieve User");
+		System.out.println(query);
 		Map<String, UserBean> rv = new HashMap<String, UserBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -85,7 +89,7 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		// query parameters are set as ?
 		String preparedStatement = "insert into Users values(?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
-		
+		System.out.println("Inserting User info:\n Query: " + preparedStatement + " -" + email + " -" + firstname +  " -" + lastname + " -" + phonenumber + " -" + address_id);
 		//PreparedStatement to prevent SQL injection
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
 		

@@ -37,7 +37,7 @@ public class IdentityManagementController {
 		
 		String out = "";
 		
-		if(!emart.retrieveUserToAuthenticate(email, password).isEmpty()) {
+		if(emart.retrieveUserToAuthenticate(email, password) != null && !emart.retrieveUserToAuthenticate(email, password).isEmpty()) {
 			
 			UserBean user = emart.retrieveUserToAuthenticate(email, password).get(email);
 			AuthBean auth = SecurityFilter.tokenGenerator();
@@ -62,7 +62,7 @@ public class IdentityManagementController {
 		
 		String out = "{ \"result\": ";
 		
-		if(!emart.retrieveUser(email).isEmpty()) {
+		if(emart.retrieveUser(email) == null  || emart.retrieveUser(email).isEmpty()) {
 			emart.addUser(email, password, firstname, lastname, phone, street, province, country, zip);
 			
 			out += "\"Successful, You can now sign in.\"";
