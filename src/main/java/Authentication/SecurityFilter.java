@@ -2,6 +2,7 @@ package Authentication;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -54,6 +55,8 @@ public class SecurityFilter implements ContainerRequestFilter{
 		String token = "";
 		Instant now = Instant.now();
 		Date expiry = Date.from(now.plus(1, ChronoUnit.DAYS));
+		Calendar temp = Calendar.getInstance();
+		temp.setTime(expiry);
 		
 		token = Jwts.builder()
 				.setSubject("Identification")
@@ -64,7 +67,7 @@ public class SecurityFilter implements ContainerRequestFilter{
 		
 		token = SecurityFilter.BEARER +" " +token;
 		
-		return new AuthBean(token, String.format("%d-%d-%d", expiry.getYear(), expiry.getMonth(), expiry.getDate()));
+		return new AuthBean(token, String.format("%d-%d-%d", temp.get(Calendar.YEAR), temp.get(Calendar.MONTH), temp.get(Calendar.DAY_OF_MONTH)));
 	}
 
 }
