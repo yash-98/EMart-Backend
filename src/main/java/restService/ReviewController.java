@@ -13,10 +13,13 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.CORS;
 import model.EMartModel;
 import bean.ReviewBean;
 
 @Path("review")
+@CORS
+
 public class ReviewController {
 	
 	private EMartModel emart;

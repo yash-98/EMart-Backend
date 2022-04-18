@@ -9,13 +9,14 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.CORS;
 import Authentication.SecurityFilter;
 import bean.AuthBean;
 import bean.UserBean;
 import model.EMartModel;
 
 @Path("user") //this is the path of the resource
-
+@CORS
 
 public class IdentityManagementController {
 

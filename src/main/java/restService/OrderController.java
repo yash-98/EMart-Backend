@@ -9,6 +9,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.CORS;
 import Authentication.SecureAuth;
 import model.EMartModel;
 import bean.ItemBean;
@@ -16,6 +17,7 @@ import bean.UserBean;
 
 @Path("order") //this is the path of the resource
 @SecureAuth
+@CORS
 
 public class OrderController {
 
