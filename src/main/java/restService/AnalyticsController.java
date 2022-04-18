@@ -1,12 +1,16 @@
 package restService;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import bean.ItemBean;
 import bean.VisitEventBean;
 import model.EMartModel;
 
@@ -31,7 +35,7 @@ public class AnalyticsController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAppUsage() {
 		
-		List<VisitEventBean> events = emart.retrieveEvents();
+		List<VisitEventBean> events = emart.retrieveAllVisitEvents();
 		
 		String out = "";
 		
@@ -47,25 +51,36 @@ public class AnalyticsController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getSalesReport() {
 		
-		List<VisitEventBean> events = emart.retrieveEvents();
-		
+		Map<String, Set<ItemBean>> events;
 		String out = "";
 		
-		if(events != null && !events.isEmpty()) {
-			out = "{ \"events\" : " +jsonConvertor.toJson(events) +"}";
+		try {
+			
+			events = emart.monthlyReport();
+			
+			if(events != null && !events.isEmpty()) {
+				out = "{ \"events\" : " +jsonConvertor.toJson(events) +"}";
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+			
+			out = "{ \"Error\" : \"No Event Data\" }";
 		}
-
+		
 		return out;
 	}
 	
 	@POST
-	@Path("/appusage")
+	@Path("/addappevent")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String addVisitEvent(@QueryParam("ip")String ip,
 			@QueryParam("day")String day, @QueryParam("bid")String
 			bid, @QueryParam("event")String event) {
 		
-		return "insertedRows:" +emart.addVisitEvent(ip, day, bid, event);
+		return "insertedRows:" +emart.insertVisitEvent(ip, day, bid, event);
 	}
 	
 }

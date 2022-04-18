@@ -131,9 +131,9 @@ public class AddressDAO {
 	
 	public int retrieveByAll(String street, String province, String country, String zip) throws SQLException{
 		
-		String query = "select * from Address where street like '%" +street 
-				+"%' and province like '%" +province +"%'" +" and country like '%" +country +"%'" 
-				+" and zip like '%" +zip +"%'";
+		String query = "select * from Address where street = '" +street 
+				+"' and province = '" +province +"'" +" and country = '" +country +"'" 
+				+" and zip = '" +zip +"'";
 		int addId = -1;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -142,12 +142,6 @@ public class AddressDAO {
 		while (r.next()) {
 			
 			addId = r.getInt("ID");
-			/*String addStreet = r.getString("STREET");
-			String addProvince = r.getString("PROVINCE");
-			String addCountry = r.getString("COUNTRY");
-			String addZip = r.getString("ZIP");
-			
-			rv.put(addId, new AddressBean(addId, addStreet, addProvince, addCountry, addZip));*/
 		}
 		
 		r.close();
