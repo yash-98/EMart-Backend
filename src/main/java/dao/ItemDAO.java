@@ -63,7 +63,7 @@ public class ItemDAO {
 	
 	public int LastID() throws SQLException{
 		
-		String query = "select max(bid) from item";
+		String query = "select max(bid) as BID from item";
 		int lastID = 0;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);

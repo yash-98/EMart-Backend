@@ -1,0 +1,152 @@
+CREATE TABLE Item(
+bid INT NOT NULL PRIMARY KEY,
+name VARCHAR(60) NOT NULL,
+description VARCHAR(60) NOT NULL,
+type VARCHAR(60) NOT NULL,
+brand VARCHAR(60) NOT NULL,
+quantity INT NOT NULL,
+price DOUBLE NOT NULL
+);
+/*insert data into item table*/
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (0, 'Little 
+Prince', 'a___book___for___all___ages', 'book', 'Penguin', 20, 100.0);
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (1, 'iPad', 'a___device___for___personal___use', 'computer', 'Apple', 500, 100.0);
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (2, 'laptopm', 'a___device___for___personal___use', 'computer', 'Apple', 1500, 100.0);
+
+
+
+/*create an addtess table*/
+CREATE TABLE Address (
+id INT NOT NULL,
+street VARCHAR(100) NOT NULL,
+province VARCHAR(20) NOT NULL,
+country VARCHAR(20) NOT NULL,
+zip VARCHAR(20) NOT NULL,
+PRIMARY KEY(id)
+);
+/*populate the address table*/
+INSERT INTO Address (id, street, province, country, zip) VALUES (1, '123 Yonge St', 'ON', 
+'Canada', 'K1E 6T5');
+INSERT INTO Address (id, street, province, country, zip) VALUES (2, '445 Avenue rd', 'ON', 
+'Canada', 'M1C 6K5');
+INSERT INTO Address (id, street, province, country, zip) VALUES (3, '789 Keele St.', 'ON', 
+'Canada', 'K3C 9T5');
+
+
+/*Create an User table */
+CREATE TABLE Users (
+user_id VARCHAR(40) NOT NULL,
+password VARCHAR(40) NOT NULL,
+firstname VARCHAR(40) NOT NULL,
+lastname VARCHAR(40) NOT NULL,
+phonenumber VARCHAR(40) NOT NULL,
+addressid INT NOT NULL,
+PRIMARY KEY(user_id)
+);
+
+INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, addressid)
+	VALUES ('satin360@gmail.com', '1234', 'Satinder', 'Sikand', '1234567890', 1);
+INSERT INTO Users (user_id, password, firstname, lastname, phonenumber, addressid)
+	VALUES ('yashd@gmail.com', '4567', 'Yash', 'Desai', '0123456789', 2);
+
+/* create Purchase Order(PO) table */
+/* Purchase Order
+* lname: last name
+* fname: first name
+* id: purchase order id
+* status: status of purchase: Processed, Denied, Ordered
+*/
+CREATE TABLE PO (
+id INT NOT NULL,
+lname VARCHAR(20) NOT NULL,
+fname VARCHAR(20) NOT NULL,
+status VARCHAR(20)NOT NULL,
+address INT NOT NULL,
+email VARCHAR(40) NOT NULL,
+PRIMARY KEY(id),
+FOREIGN KEY (address) REFERENCES Address (id),
+FOREIGN KEY (email) REFERENCES Users(user_id)
+);
+/*
+* Inserting data for table 'PO'
+*/
+INSERT INTO PO (id, lname, fname, status, address, email) VALUES (1, 'Satinder', 'Sikand', 'PROCESSED', 1, 'satin360@gmail.com');
+INSERT INTO PO (id, lname, fname, status, address, email) VALUES (2, 'Yash', 'Desai', 'DENIED', 2, 'yashd@gmail.com');
+
+
+/*create table Purchase Ordert Item, contains items on each order*/
+CREATE TABLE POItem (
+id INT NOT NULL,
+bid INT NOT NULL,
+price DOUBLE NOT NULL,
+PRIMARY KEY(id,bid),
+FOREIGN KEY(id) REFERENCES PO(id),
+FOREIGN KEY(bid) REFERENCES Item(bid)
+);
+/*
+*Inserting data for table 'POitem'
+*/
+INSERT INTO POItem (id, bid, price) VALUES (1, 0, 20);
+INSERT INTO POItem (id, bid, price) VALUES (2, 1, 500);
+
+
+/* visit to website
+* ipaddress: varchar
+* day: date
+* bid: unique identifier of item
+* eventtype: status of purchase
+*/
+CREATE TABLE VisitEvent (
+ipaddress varchar (20) NOT NULL,
+day varchar(8) NOT NULL,
+bid INT not null,
+eventtype varchar(20) NOT NULL,
+FOREIGN KEY(bid) REFERENCES Item(bid)
+);
+/*
+* data for table 'VisitEvent'
+*/
+INSERT INTO VisitEvent (ipaddress, day, bid, eventtype) VALUES ('1.23.4.5','12202022', 0, 
+'VIEW');
+INSERT INTO VisitEvent (ipaddress, day, bid, eventtype) VALUES ('1.23.4.5', '12242022', 0, 
+'CART');
+INSERT INTO VisitEvent (ipaddress,day, bid, eventtype) VALUES ('1.23.4.5', '12252022', 0, 
+'PURCHASE');
+
+
+/* Create Review Table */
+CREATE TABLE Reviews (
+reviewid INT NOT NULL,
+userpostid VARCHAR(40) NOT NULL,
+review VARCHAR(100) NOT NULL,
+itemid INT NOT NULL,
+rating DOUBLE NOT NULL,
+PRIMARY KEY(reviewid),
+FOREIGN KEY(userpostid) REFERENCES Users(user_id),
+FOREIGN KEY(itemid) REFERENCES Item(bid)
+);
+
+INSERT into Reviews (reviewid, userpostid, review, itemid, rating) VALUES
+	(0, 'satin360@gmail.com', 'This is a test review.', 0, 4.5);
+
+/* check the content of the tables*/
+SELECT * FROM VisitEvent;
+SELECT * FROM POItem;
+SELECT * FROM PO;
+SELECT * FROM Address;
+SELECT * FROM Item;
+SELECT * FROM Reviews;
+SELECT * FROM Users;
+/*
+--select * from Reviews where itemId = 0;
+
+--insert into Reviews values(1, 'yashd@gmail.com', 'This___product___was___amazing.', 0, 5.0);
+
+--select max(reviewid) as ID from Reviews;
+--DROP TABLE VisitEvent;
+--DROP TABLE POItem;
+--DROP TABLE PO;
+--DROP TABLE Address;
+--DROP TABLE Reviews;
+--DROP TABLE Item;
+--DROP TABLE Users; */
