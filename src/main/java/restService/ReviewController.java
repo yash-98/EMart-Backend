@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import Authentication.CORS;
+import Authentication.SecureAuth;
 import model.EMartModel;
 import bean.ReviewBean;
 
@@ -36,6 +37,7 @@ public class ReviewController {
 	@POST
 	@Path("/newReview")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@SecureAuth
 	public String createReview(@QueryParam("userPostId") String userPostId, @QueryParam("reviewDesc") String reviewDesc, 
 			@QueryParam("rating") String rating, @QueryParam("itemId") String itemId) {
 		try {
