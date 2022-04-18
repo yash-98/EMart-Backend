@@ -26,7 +26,7 @@ public class UserDAO {
 	
 	public Map<String, UserBean> retrieveUserAuth(String user_id, String password) throws SQLException{
 		
-		String query = "select * from Users where user_id = '" + user_id +"' and password = '" + password +"'";
+		String query = "select * from users";// where user_id = '" + user_id +"' and password = '" + password +"'";
 		System.out.println("Retrieve userAuth");
 		System.out.println(query);
 
@@ -35,7 +35,7 @@ public class UserDAO {
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
-		
+		System.out.println("Query ran");
 		while (r.next()) {
 			
 			String email = r.getString("USER_ID");
@@ -43,10 +43,11 @@ public class UserDAO {
 			String firstname = r.getString("FIRSTNAME");
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
-			int address_id = r.getInt("ADDRESS_ID");
+			int address_id = r.getInt("ADDRESSID");
 			String role = r.getString("ROLE");
 
-			
+			System.out.println(email + "here");
+			System.out.println(pass + "here");
 			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
 		}
 		
@@ -77,7 +78,7 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 			String firstname = r.getString("FIRSTNAME");
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
-			int address_id = r.getInt("ADDRESS_ID");
+			int address_id = r.getInt("ADDRESSID");
 			String role = r.getString("ROLE");
 
 			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));

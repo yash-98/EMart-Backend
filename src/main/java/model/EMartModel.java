@@ -628,6 +628,7 @@ public class EMartModel {
 			return userData.retrieveUserAuth(userId, password);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			System.out.println("Incorrect or Invalid user id/password.");
 			return null;
 		}
