@@ -16,7 +16,6 @@ import bean.ItemBean;
 @Path("catalog") //this is the path of the resource
 @CORS
 
-
 public class CatalogController {
 
 	private EMartModel emart;
