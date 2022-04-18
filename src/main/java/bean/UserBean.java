@@ -1,11 +1,11 @@
 package bean;
 
 public class UserBean {
-	private String userId, password, firstname, lastname, phoneNumber;
+	private String userId, password, firstname, lastname, phoneNumber, role;
 	private int addressId;
 
 	public UserBean(String userId, String password, String firstname, String lastname,
-			String phoneNumber, int addressId) {
+			String phoneNumber, String role, int addressId) {
 		super();
 		this.userId = userId;
 		this.password = password;
@@ -13,6 +13,14 @@ public class UserBean {
 		this.lastname = lastname;
 		this.phoneNumber = phoneNumber;
 		this.addressId = addressId;
+		this.role = role;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
 	}
 	public String getUserId() {
 		return userId;
