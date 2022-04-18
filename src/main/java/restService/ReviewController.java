@@ -59,7 +59,7 @@ public class ReviewController {
 			Boolean firstReview = true;
 			System.out.println("Have recieved an ajax call.");
 			StringBuilder res = new StringBuilder();
-			res.append("{ \"students\" :  [");
+			res.append("{ \"reviews\" :  [");
 			if (dbresult != null && !dbresult.isEmpty()) {
 				for (Integer s : dbresult.keySet()) {
 					ReviewBean sb = dbresult.get(s);
@@ -79,6 +79,33 @@ public class ReviewController {
 			System.out.println("Error trace when retrieving rows.");
 			e.printStackTrace();
 			return "{ \"response\" : " + "\"Error! Could not insert rows!\"" +"}";
+		}
+		
+	}
+	
+	@GET
+	@Path("/getAverageReviewItem")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getAverageReviewItem(@QueryParam("itemId") String itemId) {
+		try {
+			double dbresult = emart.retrieveItemAvgRating(itemId);
+			StringBuilder res = new StringBuilder();
+			res.append("{ \"rating\" :  ");
+			if (dbresult >= 0) {
+				res.append(dbresult);
+			} else if (dbresult == -1) {
+				res.append("None");
+			} else {
+				res.append("\"Error! Could not retrieve review avg from DB.\"");
+			}
+
+			res.append("}");
+			return res.toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Error trace when retrieving rows.");
+			e.printStackTrace();
+			return "{ \"response\" : " + "\"Error! Could not retrieve review avg from DB.\"" +"}";
 		}
 		
 	}

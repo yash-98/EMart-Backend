@@ -639,6 +639,18 @@ public class EMartModel {
 		}
 	}
 	
+	public double retrieveItemAvgRating(String itemId) {
+		try {
+			int tempid = Integer.parseInt(itemId);
+			return reviewData.getAvgReview(tempid);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("There was an error when trying to retrieve the average item rating.");
+			e.printStackTrace();
+			return -2;
+		}
+	}
+	
 	//TODO Add deleteReview
 	
 	//User based functions
