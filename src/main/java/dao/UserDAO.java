@@ -30,6 +30,7 @@ public class UserDAO {
 		System.out.println("Retrieve userAuth");
 		System.out.println(query);
 
+
 		Map<String, UserBean> rv = new HashMap<String, UserBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -44,6 +45,7 @@ public class UserDAO {
 			String phonenumber = r.getString("PHONENUMBER");
 			int address_id = r.getInt("ADDRESS_ID");
 			String role = r.getString("ROLE");
+
 			
 			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
 		}
@@ -62,6 +64,7 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		System.out.println("Retrieve User");
 		System.out.println(query);
 
+
 		Map<String, UserBean> rv = new HashMap<String, UserBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -78,6 +81,7 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 			String role = r.getString("ROLE");
 
 			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
+
 		}
 		
 		

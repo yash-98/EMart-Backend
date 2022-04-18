@@ -138,6 +138,7 @@ SELECT * FROM Item;
 SELECT * FROM Reviews;
 SELECT * FROM Users;
 /*
+
 --select * from Reviews where itemId = 0;
 
 --insert into Reviews values(1, 'yashd@gmail.com', 'This___product___was___amazing.', 0, 5.0);

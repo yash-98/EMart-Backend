@@ -78,13 +78,15 @@ public class EMartModel {
 			errstr.append("The day paramter is incorrect for the EventType insert.\n");
 			throwError = true;
 		}
+		int tempbid;
 		if (bid.length() < 1) {
 			errstr.append("The BID paramter is incorrect for the EventType insert.\n");
 			throwError = true;
 		}
 		try {
-			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			boolean exists = itemData.retrieveAll().containsKey(bid);
+			tempbid = Integer.parseInt(bid);
+//			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+			boolean exists = itemData.retrieveAll().containsKey(tempbid);
 			if (!exists) {
 				errstr.append("The BID parameter does not exist in the Items table.");
 				throwError = true;
@@ -107,10 +109,10 @@ public class EMartModel {
 			checkVisitEventParameters(ipAddress, day, bid, eventType);
 			ipAddress = ipAddress.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			day = day.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
+//			bid = bid.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			eventType = eventType.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			
-			return this.visitData.insert(ipAddress, day, bid, eventType);
+			int tempbid = Integer.parseInt(bid);
+			return this.visitData.insert(ipAddress, day, tempbid, eventType);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There wan an error when trying to insert the visit Event Data.");
@@ -542,7 +544,7 @@ public class EMartModel {
 	
 	//Review based functions 
 	
-	public Map<String, ReviewBean> retrieveAllReviews() {
+	public Map<Integer, ReviewBean> retrieveAllReviews() {
 		try {
 			return reviewData.retrieveAll();
 		} catch (Exception e) {
@@ -552,16 +554,13 @@ public class EMartModel {
 		}
 	}
 	
-	public Map<String, ReviewBean> retrieveAllItemReviews(String itemId_requested) {
+	public Map<Integer, ReviewBean> retrieveAllItemReviews(String itemId_requested) {
 		try {
 			if (itemId_requested.length() < 1) 
 				throw new IllegalArgumentException();
 			
-			itemId_requested = itemId_requested.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-			if (itemId_requested.length() < 1) 
-				throw new IllegalArgumentException();
-			
-			return reviewData.retrieveAll();
+			int tempid = Integer.parseInt(itemId_requested);
+			return reviewData.retrieveAllByItem(tempid);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("The itemId of the reviews requested was invalid.");
@@ -589,28 +588,26 @@ public class EMartModel {
 		
 	}
 	
-	public int addReview(String userPostId, String reviewDesc, String rating) {
+	public int addReview(String userPostId, String reviewDesc, String rating, String itemId) {
 		try {
 			checkReviewParameters(userPostId, reviewDesc);
 //			reviewId = reviewId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			userPostId = userPostId.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 			reviewDesc = reviewDesc.replaceAll(" ", "___").replaceAll("[\"\"'']", "");
 			
-			
 			if (Double.parseDouble(rating) < 0 || Double.parseDouble(rating) > 5) {
 				System.out.println("Review rating is invalid. Must be a number between 0 and 5.");
 				throw new IllegalArgumentException();
 			}
+			int tempid = Integer.parseInt(itemId);
 			reviewId++;
-			itemId++;
 			checkReviewParameters(userPostId, reviewDesc);
-			return reviewData.insertReview(reviewId+"", userPostId, reviewDesc, itemId+"", Double.parseDouble(rating));
+			return reviewData.insertReview(reviewId, userPostId, reviewDesc, tempid, Double.parseDouble(rating));
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Error! Could not process the request to insert the Review!");
 			reviewId--;
-			itemId--;
 			return 0;
 		}
 	}
