@@ -43,12 +43,12 @@ public class UserDAO {
 			String firstname = r.getString("FIRSTNAME");
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
-			int address_id = r.getInt("ADDRESSID");
+			int address_id_ship = r.getInt("ADDRESSIDSHIP");
+			int address_id_bill = r.getInt("ADDRESSIDBILL");
 			String role = r.getString("ROLE");
 
-			System.out.println(email + "here");
-			System.out.println(pass + "here");
-			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
+			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id_ship, address_id_bill));
+
 		}
 		
 		
@@ -78,10 +78,11 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 			String firstname = r.getString("FIRSTNAME");
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
-			int address_id = r.getInt("ADDRESSID");
+			int address_id_ship = r.getInt("ADDRESSIDSHIP");
+			int address_id_bill = r.getInt("ADDRESSIDBILL");
 			String role = r.getString("ROLE");
 
-			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id));
+			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, role, address_id_ship, address_id_bill));
 
 		}
 		
@@ -93,12 +94,12 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		return rv;
 	}
 	
-	public int insertUser(String email, String password, String firstname, String lastname, String phonenumber, String role, int address_id) 
+	public int insertUser(String email, String password, String firstname, String lastname, String phonenumber, String role, int address_id_ship, int address_id_bill) 
 			throws SQLException, NamingException{
 		// query parameters are set as ?
-		String preparedStatement = "insert into Users values(?,?,?,?,?,?,?)";
+		String preparedStatement = "insert into Users values(?,?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
-		System.out.println("Inserting User info:\n Query: " + preparedStatement + " -" + email + " -" + firstname +  " -" + lastname + " -" + phonenumber + " -" + role + " -" + address_id);
+		System.out.println("Inserting User info:\n Query: " + preparedStatement + " -" + email + " -" + firstname +  " -" + lastname + " -" + phonenumber + " -" + role + " -" + address_id_ship + " -" + address_id_bill);
 		//PreparedStatement to prevent SQL injection
 		PreparedStatement stmt = con.prepareStatement(preparedStatement);
 		
@@ -108,8 +109,9 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		stmt.setString(3, firstname);
 		stmt.setString(4, lastname);
 		stmt.setString(5, phonenumber);
-		stmt.setString(7, role);
-		stmt.setInt(6, address_id);
+		stmt.setString(8, role);
+		stmt.setInt(6, address_id_ship);
+		stmt.setInt(7, address_id_bill);
 		
 		return stmt.executeUpdate();
 	}

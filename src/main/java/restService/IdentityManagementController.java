@@ -58,15 +58,18 @@ public class IdentityManagementController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String register(@HeaderParam("email") String email, @HeaderParam("password") String password,
 			@HeaderParam("firstname") String firstname, @HeaderParam("lastname") String lastname, @HeaderParam("phone") String phone,
-			@HeaderParam("street") String street, @HeaderParam("province") String province, @HeaderParam("country") String country, 
-			@HeaderParam("zip") String zip, @HeaderParam("role") String role) {
+			@HeaderParam("streetShip") String streetShip, @HeaderParam("provinceShip") String provinceShip, @HeaderParam("countryShip") String countryShip, 
+			@HeaderParam("zipShip") String zipShip, @HeaderParam("streetBill") String streetBill, @HeaderParam("provinceBill") String provinceBill, @HeaderParam("countryBill") String countryBill, 
+			@HeaderParam("zipBill") String zipBill, @HeaderParam("role") String role) {
 		
 		String out = "{ \"result\": ";
 		
 		if(emart.retrieveUser(email) == null  || emart.retrieveUser(email).isEmpty()) {
-			emart.addUser(email, password, firstname, lastname, phone, role, street, province, country, zip);
-			
-			out += "\"Successful, You can now sign in.\"";
+			int res = emart.addUser(email, password, firstname, lastname, phone, role, streetShip, provinceShip, countryShip, zipShip, streetBill, provinceBill, countryBill, zipBill);
+			if (res >=0)
+				out += "\"Successful, You can now sign in.\"";
+			else
+				out += "\"UnSuccessful, User with same email already exists.\"";
 		}
 		else {
 			out += "\"UnSuccessful, User with same email already exists.\"";
