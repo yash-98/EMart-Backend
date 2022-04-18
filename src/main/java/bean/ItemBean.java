@@ -2,11 +2,11 @@ package bean;
 
 public class ItemBean {
 
-	private String name, description, type, brand;
+	private String name, description, type, brand, link;
 	private int quantity, bid;
 	private double price;
 	
-	public ItemBean(int bid, String name, String description, String type, String brand, int quantity, double price) {
+	public ItemBean(int bid, String name, String description, String type, String brand, int quantity, double price, String link) {
 		super();
 		this.bid = bid;
 		this.name = name;
@@ -15,6 +15,15 @@ public class ItemBean {
 		this.brand = brand;
 		this.quantity = quantity;
 		this.price = price;
+		this.link = link;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	public int getBid() {
