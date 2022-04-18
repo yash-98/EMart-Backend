@@ -487,7 +487,7 @@ public class EMartModel {
 	}
 	
 	public int insertItem(String name, String description, String type,
-			String brand, String quantity, String price){
+			String brand, String quantity, String price, String link){
 		try {
 			this.bId++;
 			checkItemParameters(name, description, type, brand);
@@ -500,7 +500,7 @@ public class EMartModel {
 			Integer qnty = Integer.parseInt(quantity);
 			Double priceItem = Double.parseDouble(price);
 			
-			return this.itemData.insert(bId, name, description, type, brand, qnty, priceItem);
+			return this.itemData.insert(bId, name, description, type, brand, qnty, priceItem, link);
 		} catch (Exception e) {
 			// TODO: handle exception
 			this.bId--;

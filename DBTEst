@@ -5,13 +5,13 @@ description VARCHAR(60) NOT NULL,
 type VARCHAR(60) NOT NULL,
 brand VARCHAR(60) NOT NULL,
 quantity INT NOT NULL,
-price DOUBLE NOT NULL
+price DOUBLE NOT NULL,
+link VARCHAR(1500)
 );
 /*insert data into item table*/
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (0, 'Ratchet___and___clank', 'A___PS5___game.', 'PS5', 'Playstation', 20, 100.0);
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (1, 'Halo', 'a___device___for___personal___use', 'XBox', 'Xbox', 500, 100.0);
-INSERT INTO ITEM (bid, name, description, type, brand, price, quantity) VALUES (2, 'Pokemon', 'a___device___for___personal___use', 'Switch', 'Nintendo', 1500, 100.0);
-
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity, link) VALUES (0, 'Ratchet___&___Clank___Rifts___Apart', 'A___PS5___game.', 'PS5', 'Playstation', 20, 100.0, 'https://image.api.playstation.com/vulcan/ap/rnd/202101/2921/DwVjpbKOsFOyPdNzmSTSWuxG.png');
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity, link) VALUES (1, 'Halo', 'New___Halo___game___for___Xbox', 'XBox', 'Xbox', 500, 100.0, 'https://upload.wikimedia.org/wikipedia/en/1/14/Halo_Infinite.png');
+INSERT INTO ITEM (bid, name, description, type, brand, price, quantity, link) VALUES (2, 'Pokemon___Arceus', 'Latest___pokemon___game___for___Switch', 'Switch', 'Nintendo', 1500, 100.0, 'https://i5.walmartimages.ca/images/Enlarge/339/343/6000204339343.jpg');
 
 
 /*create an addtess table*/
