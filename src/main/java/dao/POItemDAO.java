@@ -37,8 +37,8 @@ public class POItemDAO {
 		//here we set individual parameters through method calls
 		//first parameter is the place holder position in the ? //pattern above
 		stmt.setInt(1, id);
-		stmt.setDouble(2, price);
-		stmt.setInt(3, bid);
+		stmt.setDouble(3, price);
+		stmt.setInt(2, bid);
 
 		return stmt.executeUpdate();
 	 }

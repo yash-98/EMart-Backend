@@ -34,31 +34,31 @@ public class ReviewController {
 	@Path("/newReview")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createReview(@QueryParam("userPostId") String userPostId, @QueryParam("reviewDesc") String reviewDesc, 
-			@QueryParam("rating") String rating) {
+			@QueryParam("rating") String rating, @QueryParam("itemId") String itemId) {
 		try {
 			System.out.println(reviewDesc);
-			int result = emart.addReview(userPostId, reviewDesc, rating);
-			return "ReviewsAdded: " + result; 
+			int result = emart.addReview(userPostId, reviewDesc, rating, itemId);
+			return "{ \"response\" : " + "\"Reviews Added:" + result + "\"" +"}";
 		} catch (Exception e) {
 			// TODO: handle exception
-			return "Error! Could not insert rows.";
+			return "{ \"response\" : " + "\"Error! Could not insert rows!\"" +"}";
 		}
 		
 	}
 	
 	@GET
-	@Path("/newReview")
+	@Path("/getReviewsItem")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String getReviewByItem(@QueryParam("itemId") String itemId) {
 		try {
-			Map<String, ReviewBean> dbresult = emart.retrieveAllItemReviews(itemId);
+			Map<Integer, ReviewBean> dbresult = emart.retrieveAllItemReviews(itemId);
 
 			Boolean firstReview = true;
 			System.out.println("Have recieved an ajax call.");
 			StringBuilder res = new StringBuilder();
 			res.append("{ \"students\" :  [");
 			if (dbresult != null && !dbresult.isEmpty()) {
-				for (String s : dbresult.keySet()) {
+				for (Integer s : dbresult.keySet()) {
 					ReviewBean sb = dbresult.get(s);
 					res.append(firstReview ? "" : ", ");
 					res.append("{ \"reviewId\" : \"" + sb.getReview_id() + "\", ");
@@ -75,7 +75,7 @@ public class ReviewController {
 			// TODO: handle exception
 			System.out.println("Error trace when retrieving rows.");
 			e.printStackTrace();
-			return "Error!";
+			return "{ \"response\" : " + "\"Error! Could not insert rows!\"" +"}";
 		}
 		
 	}

@@ -37,11 +37,11 @@ public class PODAO {
 		//here we set individual parameters through method calls
 		//first parameter is the place holder position in the ? //pattern above
 		stmt.setInt(1, id);
-		stmt.setInt(2, addressID);
-		stmt.setString(3, email);
-		stmt.setString(4, lname);
-		stmt.setString(5, fname);
-		stmt.setString(6, status);
+		stmt.setInt(5, addressID);
+		stmt.setString(6, email);
+		stmt.setString(2, lname);
+		stmt.setString(3, fname);
+		stmt.setString(4, status);
 
 		return stmt.executeUpdate();
 	 }
@@ -59,7 +59,7 @@ public class PODAO {
 	
 	public int LastID() throws SQLException{
 		
-		String query = "select max(id) from PO";
+		String query = "select max(id) as ID from PO";
 		int lastID = 0;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);

@@ -58,7 +58,7 @@ public class AddressDAO {
 	
 	public int LastID() throws SQLException{
 		
-		String query = "select max(id) from Address";
+		String query = "select max(id) as ID from Address";
 		int lastID = 0;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);

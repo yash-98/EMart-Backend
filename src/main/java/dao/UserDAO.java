@@ -26,7 +26,7 @@ public class UserDAO {
 	
 	public Map<String, UserBean> retrieveUserAuth(String user_id, String password) throws SQLException{
 		
-		String query = "select * from Users where user_id like '%" + user_id +"%'and password like '%" + password +"%'";
+		String query = "select * from Users where user_id = '%" + user_id +"%'and password = '%" + password +"%'";
 		Map<String, UserBean> rv = new HashMap<String, UserBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -39,7 +39,7 @@ public class UserDAO {
 			String firstname = r.getString("FIRSTNAME");
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
-			int address_id = r.getInt("ADDRESS_ID");
+			int address_id = r.getInt("ADDRESSID");
 			
 			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, address_id));
 		}
@@ -54,7 +54,7 @@ public class UserDAO {
 	
 public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 		
-		String query = "select * from Users where user_id like '%" + user_id +"%'";
+		String query = "select * from Users where user_id = '%" + user_id +"%'";
 		Map<String, UserBean> rv = new HashMap<String, UserBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -67,7 +67,7 @@ public Map<String, UserBean> retrieveUser(String user_id) throws SQLException{
 			String firstname = r.getString("FIRSTNAME");
 			String lastname = r.getString("LASTNAME");
 			String phonenumber = r.getString("PHONENUMBER");
-			int address_id = r.getInt("ADDRESS_ID");
+			int address_id = r.getInt("ADDRESSID");
 			
 			rv.put(email, new UserBean(email, pass, firstname, lastname, phonenumber, address_id));
 		}

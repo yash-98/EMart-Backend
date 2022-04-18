@@ -25,10 +25,10 @@ public class VisitEventDAO {
 		}
 	}
 	
-	public int insert(String ipAddress, String day, String bid, String eventType)throws SQLException, NamingException {
+	public int insert(String ipAddress, String day, int bid, String eventType)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
-		String preparedStatement ="insert into visitevent values(?,?,?,?)";
+		String preparedStatement ="insert into VisitEvent values(?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatements prevent SQL injection
@@ -38,7 +38,7 @@ public class VisitEventDAO {
 		//first parameter is the place holder position in the ? //pattern above
 		stmt.setString(1, ipAddress);
 		stmt.setString(2, day);
-		stmt.setString(3, bid);
+		stmt.setInt(3, bid);
 		stmt.setString(4, eventType);
 		
 		return stmt.executeUpdate();
@@ -56,7 +56,7 @@ public class VisitEventDAO {
 			
 			String veIP = r.getString("IPADDRESS");
 			String veDay = r.getString("DAY");
-			String veBid = r.getString("BID");
+			int veBid = r.getInt("BID");
 			String veEventType = r.getString("EVENTTYPE");
 			
 			rv.add(new VisitEventBean(veIP, veDay, veBid, veEventType));
