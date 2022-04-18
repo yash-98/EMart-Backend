@@ -25,10 +25,10 @@ public class PODAO {
 		}
 	}
 	
-	public int insert(int id, int addressID, String email, String lname, String fname, String status)throws SQLException, NamingException {
+	public int insert(int id, int shippingAddressID, int billingAddressID, String email, String lname, String fname, String status)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
-		String preparedStatement ="insert into PO values(?,?,?,?,?,?)";
+		String preparedStatement ="insert into PO values(?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatements prevent SQL injection
@@ -37,14 +37,32 @@ public class PODAO {
 		//here we set individual parameters through method calls
 		//first parameter is the place holder position in the ? //pattern above
 		stmt.setInt(1, id);
-		stmt.setInt(5, addressID);
-		stmt.setString(6, email);
+		stmt.setInt(5, shippingAddressID);
+		stmt.setInt(6, billingAddressID);
+		stmt.setString(7, email);
 		stmt.setString(2, lname);
 		stmt.setString(3, fname);
 		stmt.setString(4, status);
 
 		return stmt.executeUpdate();
 	 }
+	
+	public int changeOrderStatus(int id, String status) throws SQLException, NamingException {
+		
+		//note that the query parameters are set as ?
+		String preparedStatement ="update PO set status = ? where id = ?";
+		Connection con = this.ds.getConnection();
+		
+		//PreparedStatements prevent SQL injection
+		PreparedStatement stmt = con.prepareStatement(preparedStatement);
+		
+		//here we set individual parameters through method calls
+		//first parameter is the place holder position in the ? //pattern above
+		stmt.setString(1, status);
+		stmt.setInt(2, id);
+
+		return stmt.executeUpdate();
+	}
 	
 	
 	public int delete(int id)throws SQLException, NamingException{
@@ -68,7 +86,7 @@ public class PODAO {
 		while (r.next()) {
 			
 			
-			lastID = r.getInt("ID");
+			lastID = r.getInt(1);
 		}
 		
 		r.close();
@@ -90,13 +108,14 @@ public class PODAO {
 		while (r.next()) {
 			
 			int poId = r.getInt("ID");
-			int poAddressId = r.getInt("ADDRESS");
+			int poShippingAddressID = r.getInt("SHIPPINGADDRESS");
+			int poBillingAddressID = r.getInt("BILLINGADDRESS");
 			String poEmail = r.getString("EMAIL");
 			String poLName = r.getString("LNAME");
 			String poFName = r.getString("FNAME");
 			String poStatus = r.getString("STATUS");
 			
-			rv.put(poId, new POBean(poId, poAddressId, poEmail, poLName, poFName, poStatus));
+			rv.put(poId, new POBean(poId, poShippingAddressID, poBillingAddressID, poEmail, poLName, poFName, poStatus));
 		}
 		
 		r.close();
@@ -117,13 +136,14 @@ public class PODAO {
 		while (r.next()) {
 			
 			int poId = r.getInt("ID");
-			int poAddressId = r.getInt("ADDRESS");
+			int poShippingAddressID = r.getInt("SHIPPINGADDRESS");
+			int poBillingAddressID = r.getInt("BILLINGADDRESS");
 			String poEmail = r.getString("EMAIL");
 			String poLName = r.getString("LNAME");
 			String poFName = r.getString("FNAME");
 			String poStatus = r.getString("STATUS");
 			
-			rv.put(poId, new POBean(poId, poAddressId, poEmail, poLName, poFName, poStatus));
+			rv.put(poId, new POBean(poId, poShippingAddressID, poBillingAddressID, poEmail, poLName, poFName, poStatus));
 		}
 		
 		r.close();
@@ -144,13 +164,14 @@ public class PODAO {
 		while (r.next()) {
 			
 			int poId = r.getInt("ID");
-			int poAddressId = r.getInt("ADDRESS");
+			int poShippingAddressID = r.getInt("SHIPPINGADDRESS");
+			int poBillingAddressID = r.getInt("BILLINGADDRESS");
 			String poEmail = r.getString("EMAIL");
 			String poLName = r.getString("LNAME");
 			String poFName = r.getString("FNAME");
 			String poStatus = r.getString("STATUS");
 			
-			rv.put(poId, new POBean(poId, poAddressId, poEmail, poLName, poFName, poStatus));
+			rv.put(poId, new POBean(poId, poShippingAddressID, poBillingAddressID, poEmail, poLName, poFName, poStatus));
 		}
 		
 		r.close();
