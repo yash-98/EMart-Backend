@@ -571,7 +571,7 @@ public class EMartModel {
 	
 	public Map<Integer, ReviewBean> retrieveAllReviews() {
 		try {
-			return reviewData.retrieveAll();
+			return this.reviewData.retrieveAll();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("There was an problem when retrieving all the reviews.");

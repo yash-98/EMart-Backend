@@ -62,7 +62,8 @@ id INT NOT NULL,
 lname VARCHAR(20) NOT NULL,
 fname VARCHAR(20) NOT NULL,
 status VARCHAR(20)NOT NULL,
-address INT NOT NULL,
+shippingaddress INT NOT NULL,
+billingaddress INT NOT NULL,
 email VARCHAR(40) NOT NULL,
 PRIMARY KEY(id),
 FOREIGN KEY (address) REFERENCES Address (id),
@@ -71,8 +72,8 @@ FOREIGN KEY (email) REFERENCES Users(user_id)
 /*
 * Inserting data for table 'PO'
 */
-INSERT INTO PO (id, lname, fname, status, address, email) VALUES (1, 'Satinder', 'Sikand', 'PROCESSED', 1, 'satin360@gmail.com');
-INSERT INTO PO (id, lname, fname, status, address, email) VALUES (2, 'Yash', 'Desai', 'DENIED', 2, 'yashd@gmail.com');
+INSERT INTO PO (id, lname, fname, status, shippingaddress, billingaddress, email) VALUES (1, 'Satinder', 'Sikand', 'PROCESSED', 1, 1, 'satin360@gmail.com');
+INSERT INTO PO (id, lname, fname, status, shippingaddress, billingaddress, email) VALUES (2, 'Yash', 'Desai', 'DENIED', 2, 2, 'yashd@gmail.com');
 
 
 /*create table Purchase Ordert Item, contains items on each order*/

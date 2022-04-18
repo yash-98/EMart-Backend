@@ -28,7 +28,7 @@ public class PODAO {
 	public int insert(int id, int shippingAddressID, int billingAddressID, String email, String lname, String fname, String status)throws SQLException, NamingException {
 			
 		//note that the query parameters are set as ?
-		String preparedStatement ="insert into PO values(?,?,?,?,?,?)";
+		String preparedStatement ="insert into PO values(?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		
 		//PreparedStatements prevent SQL injection
@@ -37,12 +37,12 @@ public class PODAO {
 		//here we set individual parameters through method calls
 		//first parameter is the place holder position in the ? //pattern above
 		stmt.setInt(1, id);
-		stmt.setInt(2, shippingAddressID);
-		stmt.setInt(3, billingAddressID);
-		stmt.setString(4, email);
-		stmt.setString(5, lname);
-		stmt.setString(6, fname);
-		stmt.setString(7, status);
+		stmt.setInt(5, shippingAddressID);
+		stmt.setInt(6, billingAddressID);
+		stmt.setString(7, email);
+		stmt.setString(2, lname);
+		stmt.setString(3, fname);
+		stmt.setString(4, status);
 
 		return stmt.executeUpdate();
 	 }
@@ -77,7 +77,7 @@ public class PODAO {
 	
 	public int LastID() throws SQLException{
 		
-		String query = "select max(id) from PO";
+		String query = "select max(id) as ID from PO";
 		int lastID = 0;
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -86,7 +86,7 @@ public class PODAO {
 		while (r.next()) {
 			
 			
-			lastID = r.getInt("ID");
+			lastID = r.getInt(1);
 		}
 		
 		r.close();
