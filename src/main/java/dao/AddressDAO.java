@@ -142,12 +142,6 @@ public class AddressDAO {
 		while (r.next()) {
 			
 			addId = r.getInt("ID");
-			/*String addStreet = r.getString("STREET");
-			String addProvince = r.getString("PROVINCE");
-			String addCountry = r.getString("COUNTRY");
-			String addZip = r.getString("ZIP");
-			
-			rv.put(addId, new AddressBean(addId, addStreet, addProvince, addCountry, addZip));*/
 		}
 		
 		r.close();

@@ -5,7 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -67,6 +74,42 @@ public class VisitEventDAO {
 		con.close();
 		
 		return rv;
+	}
+	
+	public Map<String, Set<Integer>> retreiveItemsSold() throws SQLException{
+		
+		int start = 202204;
+		Date now = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(now);
+		
+		int today = cal.get(Calendar.YEAR)*100 + cal.get(Calendar.MONTH);
+		Map<String, Set<Integer>> rv = new HashMap<String, Set<Integer>>();
+		
+		for(; start < today; start++) {
+			
+			String query = "select * from visitevent where day like '%" +start +"%' and eventtype = 'PURCHASE'";
+			Set<Integer> ids = new HashSet<Integer>();
+			Connection con = this.ds.getConnection();
+			PreparedStatement p = con.prepareStatement(query);
+			ResultSet r = p.executeQuery();
+			
+			while (r.next()) {
+				
+				int veBid = r.getInt("BID");
+				ids.add(veBid);
+			}
+			
+			r.close();
+			p.close();
+			con.close();
+			
+			rv.put(Integer.toString(start), ids);
+		}
+
+		
+		return rv;
+		
 	}
 	
 	

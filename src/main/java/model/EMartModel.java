@@ -4,6 +4,9 @@ import dao.*;
 
 import java.sql.SQLException;
 import java.util.*;
+
+import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
+
 import bean.*;
 
 public class EMartModel {
@@ -106,6 +109,7 @@ public class EMartModel {
 			throw new IllegalArgumentException();
 		}
 	}
+	
 	public int insertVisitEvent(String ipAddress, String day, String bid, String eventType) {
 		try {
 			checkVisitEventParameters(ipAddress, day, bid, eventType);
@@ -123,6 +127,28 @@ public class EMartModel {
 			System.out.println("There wan an error when trying to insert the visit Event Data.");
 			return 0;
 		}
+	}
+	
+	public Map<String, Set<ItemBean>> monthlyReport() throws SQLException{
+		
+		Map<String, Set<ItemBean>> rv = new HashMap<String, Set<ItemBean>>();
+		Map<Integer, ItemBean> items = itemData.retrieveAll();
+		
+		for(Map.Entry<String, Set<Integer>> e : visitData.retreiveItemsSold().entrySet()) {
+			
+			Set<ItemBean> itemNames = new HashSet<ItemBean>();
+			
+			for(Integer i : e.getValue()) {
+				
+				ItemBean it = items.get(i);
+				itemNames.add(it);
+			}
+			
+			rv.put(e.getKey(), itemNames);
+		}
+		
+		
+		return rv;
 	}
 	
 	public List<VisitEventBean> retrieveAllVisitEvents() {
@@ -750,5 +776,7 @@ public class EMartModel {
 			return -1;
 		}
 	}
+	
+	
 	
 }
