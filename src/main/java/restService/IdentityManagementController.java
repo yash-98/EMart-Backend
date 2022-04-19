@@ -34,7 +34,7 @@ public class IdentityManagementController {
 	@GET
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String login(@HeaderParam("email") String email, @HeaderParam("password") String password) {
+	public String login(@QueryParam("email") String email, @QueryParam("password") String password) {
 		
 		String out = "";
 		
@@ -56,11 +56,11 @@ public class IdentityManagementController {
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String register(@HeaderParam("email") String email, @HeaderParam("password") String password,
-			@HeaderParam("firstname") String firstname, @HeaderParam("lastname") String lastname, @HeaderParam("phone") String phone,
-			@HeaderParam("streetShip") String streetShip, @HeaderParam("provinceShip") String provinceShip, @HeaderParam("countryShip") String countryShip, 
-			@HeaderParam("zipShip") String zipShip, @HeaderParam("streetBill") String streetBill, @HeaderParam("provinceBill") String provinceBill, @HeaderParam("countryBill") String countryBill, 
-			@HeaderParam("zipBill") String zipBill, @HeaderParam("role") String role) {
+	public String register(@QueryParam("email") String email, @QueryParam("password") String password,
+			@QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname, @QueryParam("phone") String phone,
+			@QueryParam("streetShip") String streetShip, @QueryParam("provinceShip") String provinceShip, @QueryParam("countryShip") String countryShip, 
+			@QueryParam("zipShip") String zipShip, @QueryParam("streetBill") String streetBill, @QueryParam("provinceBill") String provinceBill, @QueryParam("countryBill") String countryBill, 
+			@QueryParam("zipBill") String zipBill, @QueryParam("role") String role) {
 		
 		String out = "{ \"result\": ";
 		

@@ -5,9 +5,7 @@
 	<Manager pathname="" />
 	<Resource name="jdbc/EECS" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 	type="javax.sql.DataSource"
-	driverClassName="com.mysql.jdbc.Driver"
-	username="admin"
-	password="emart1234"
-	url="jdbc:mysql://emart-db.cxgknlffz0eu.us-east-1.rds.amazonaws.com:3306/emart"/>
+	driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+url="jdbc:derby:C:\Users\HP\eclipse-workspace2\Sikand_SIS-v1\SIS_DB"/>
 	<ResourceLink global="jdbc/EECS" name="jdbc/EECS" type="javax.sql.DataSource" />
 </Context>
