@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import Authentication.CORS;
+import Authentication.SecureAuth;
 import model.EMartModel;
 import bean.ItemBean;
 
@@ -59,17 +60,19 @@ public class CatalogController {
 		return out;
 	}
 	
-	/*@GET
+	@GET
 	@Path("/allBrands")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllBrands() {
 		
-		Map<Integer, ItemBean> items = emart.retrieveAllBrands();
+		List<String> brands = itemModel.retrieveAllBrands();
 		
 		String out = "";
 		
-		if(items != null && !items.isEmpty()) {
-			out = "{ \"items\" : " +jsonConvertor.toJson(items) +"}";
+		if(brands != null && !brands.isEmpty()) {
+			out = "{ \"items\" : " +jsonConvertor.toJson(brands) +"}";
+		}else {
+			out = "{ \"Error\" : \"Could not retrieve all brands\" }";
 		}
 
 		return out;
@@ -80,16 +83,18 @@ public class CatalogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllTypes() {
 		
-		Map<Integer, ItemBean> items = emart.retrieveAllTypes();
+		List<String> types = itemModel.retrieveAllTypes();
 		
 		String out = "";
 		
-		if(items != null && !items.isEmpty()) {
-			out = "{ \"items\" : " +jsonConvertor.toJson(items) +"}";
+		if(types != null && !types.isEmpty()) {
+			out = "{ \"items\" : " +jsonConvertor.toJson(types) +"}";
+		}else {
+			out = "{ \"Error\" : \"Could not retrieve all brands\" }";
 		}
 
 		return out;
-	}*/
+	}
 	
 	@GET
 	@Path("/itemsByBrand")
@@ -118,6 +123,25 @@ public class CatalogController {
 		
 		if(items != null && !items.isEmpty()) {
 			out = "{ \"items\" : " +jsonConvertor.toJson(items) +"}";
+		}
+
+		return out;
+	}
+	
+	@POST
+	@Path("/insertItem")
+	@Produces(MediaType.APPLICATION_JSON)
+	@SecureAuth
+	public String addItem(@QueryParam("name") String name,@QueryParam("description") String description,@QueryParam("type") String type,@QueryParam("brand") String brand,@QueryParam("quantity") String quantity,@QueryParam("price") String price,@QueryParam("link") String link) {
+		
+		String out = "";
+		
+		int added = itemModel.insertItem(name, description, type, brand, quantity, price, link);
+		
+		if(added > 0) {
+			out = "{ \"items added\" : \"" +added  +"\" }";
+		}else {
+			out = "{ \"Error\" : \"Could not retrieve all brands\" }";
 		}
 
 		return out;

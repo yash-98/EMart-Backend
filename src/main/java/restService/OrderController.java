@@ -88,4 +88,13 @@ public class OrderController {
 		return out;
 	}
 	
+	@POST
+	@Path("/changeOrderStatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String changeOrderStatus(@QueryParam("PurchaseOrderID") String poID, @QueryParam("Status") String status) {
+		
+		String out = "{ \"Orders Changed\": \"" +poModel +"\" }";
+		return out;
+	}
+	
 }
