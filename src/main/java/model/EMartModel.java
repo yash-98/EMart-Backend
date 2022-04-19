@@ -39,6 +39,7 @@ public class EMartModel {
 				instance.poData = new PODAO();
 				instance.addressData = new AddressDAO();
 				instance.poitemData = new POItemDAO();
+				instance.visitData = new VisitEventDAO();
 			} catch (ClassNotFoundException e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -56,6 +57,7 @@ public class EMartModel {
 			poData = new PODAO();
 			addressData = new AddressDAO();
 			poitemData = new POItemDAO();
+			visitData = new VisitEventDAO();
 			// Static variable ID instantiation
 			// TODO instantiate IDs with the largest ID			
 			this.addressId = addressData.LastID();

@@ -53,7 +53,7 @@ public class VisitEventDAO {
 	
 	public List<VisitEventBean> retrieveAll() throws SQLException{
 		
-		String query = "select * from visitevent";
+		String query = "select * from VisitEvent";
 		List<VisitEventBean> rv = new ArrayList<VisitEventBean>();
 		Connection con = this.ds.getConnection();
 		PreparedStatement p = con.prepareStatement(query);
@@ -88,7 +88,7 @@ public class VisitEventDAO {
 		
 		for(; start < today; start++) {
 			
-			String query = "select * from visitevent where day like '%" +start +"%' and eventtype = 'PURCHASE'";
+			String query = "select * from VisitEvent where day like '%" +start +"%' and eventtype = 'PURCHASE'";
 			Set<Integer> ids = new HashSet<Integer>();
 			Connection con = this.ds.getConnection();
 			PreparedStatement p = con.prepareStatement(query);

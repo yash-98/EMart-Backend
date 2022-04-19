@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import Authentication.CORS;
 import Authentication.SecureAuth;
 import model.EMartModel;
+import model.ItemModel;
 import bean.ItemBean;
 
 @Path("catalog") //this is the path of the resource
@@ -19,12 +20,14 @@ import bean.ItemBean;
 
 public class CatalogController {
 
-	private EMartModel emart;
+//	private EMartModel emart;
+	private ItemModel itemModel;
 	private Gson jsonConvertor;
 	
 	public CatalogController() {
 		
-		emart = EMartModel.getInstance();
+//		emart = EMartModel.getInstance();
+		itemModel = ItemModel.getInstance();
 		
 		ExclusionStrategy exclusionStrategy = new ExclusionStrategy() {
 		    public boolean shouldSkipField(FieldAttributes fieldAttributes) {
@@ -49,7 +52,7 @@ public class CatalogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllItems() {
 		
-		Map<Integer, ItemBean> items = emart.retrieveAllItems();
+		Map<Integer, ItemBean> items = itemModel.retrieveAllItems();
 		
 		String out = "";
 		
@@ -101,7 +104,7 @@ public class CatalogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getItemsByBrand(@QueryParam("brand") String brand) {
 		
-		Map<Integer, ItemBean> items = emart.retrieveItemByBrand(brand);
+		Map<Integer, ItemBean> items = itemModel.retrieveItemByBrand(brand);
 		
 		String out = "";
 		
@@ -117,7 +120,7 @@ public class CatalogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getItemsByType(@QueryParam("type") String type) {
 		
-		Map<Integer, ItemBean> items = emart.retrieveItemByType(type);
+		Map<Integer, ItemBean> items = itemModel.retrieveItemByType(type);
 		
 		String out = "";
 		
