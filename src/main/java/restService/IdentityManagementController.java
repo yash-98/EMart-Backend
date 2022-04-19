@@ -62,17 +62,22 @@ public class IdentityManagementController {
 			@QueryParam("zipShip") String zipShip, @QueryParam("streetBill") String streetBill, @QueryParam("provinceBill") String provinceBill, @QueryParam("countryBill") String countryBill, 
 			@QueryParam("zipBill") String zipBill, @QueryParam("role") String role) {
 		
-		String out = "{ \"result\": ";
+		String out = "";
 		
 		if(emart.retrieveUser(email) == null  || emart.retrieveUser(email).isEmpty()) {
+			
 			int res = emart.addUser(email, password, firstname, lastname, phone, role, streetShip, provinceShip, countryShip, zipShip, streetBill, provinceBill, countryBill, zipBill);
-			if (res >=0)
+			if (res >=0) {
+				out = "{ \"result\": ";
 				out += "\"Successful, You can now sign in.\"";
-			else
-				out += "\"UnSuccessful, User with same email already exists.\"";
+			} else {
+				out = "{ \"error\": ";
+				out += "\"UnSuccessful, could not register user.\"";
+			}
 		}
 		else {
-			out += "\"UnSuccessful, User with same email already exists.\"";
+			out = "{ \"error\": ";
+			out += "\"UnSuccessful, could not register user.\"";
 		}
 		
 		out += "}";
