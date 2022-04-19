@@ -7,8 +7,10 @@ import java.util.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import bean.AuthBean;
@@ -32,22 +34,24 @@ public class SecurityFilter implements ContainerRequestFilter{
 		if(authString == null || authString.isEmpty() || !authString.startsWith(BEARER)) {
 			
 			System.out.println("Invalid Authentication Header.");
-			return;
+			throw new NotAuthorizedException(Response.status(Response.Status.UNAUTHORIZED));
 		}
 		
 		String token = authString.substring(BEARER.length()).trim();
-		Jws<Claims> result;
+		System.out.println(token);
+
 		try {
-			result =	Jwts.parser()
-							.setSigningKey(Keys.hmacShaKeyFor(SECRET))
-							.requireSubject("Identification")
-							.parseClaimsJws(token);
+				Jwts.parser()
+					.setSigningKey(Keys.hmacShaKeyFor(SECRET))
+					.requireSubject("Identification")
+					.parseClaimsJwt(token);
 		}catch(Exception e) {
+			e.printStackTrace();
 			System.out.println("Authentication Failed.");
-			return;
+			throw new NotAuthorizedException(Response.status(Response.Status.UNAUTHORIZED));
 		}
 		
-		System.out.println("Authentication Successful. Hello " +result.getBody().get("email"));
+		System.out.println("Authentication Successful");
 	}
 	
 	public static AuthBean tokenGenerator(String user) {
