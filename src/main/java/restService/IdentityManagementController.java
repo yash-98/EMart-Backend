@@ -14,18 +14,21 @@ import Authentication.SecurityFilter;
 import bean.AuthBean;
 import bean.UserBean;
 import model.EMartModel;
+import model.UserModel;
 
 @Path("user") //this is the path of the resource
 @CORS
 
 public class IdentityManagementController {
 
-	private EMartModel emart;
+//	private EMartModel emart;
 	private Gson jsonConvertor;
+	private UserModel userModel;
 	
 	public IdentityManagementController() {
 		
-		emart = EMartModel.getInstance();
+//		emart = EMartModel.getInstance();
+		userModel = UserModel.getInstance();
 		
 		GsonBuilder builder = new GsonBuilder();
 		jsonConvertor = builder.create();
@@ -38,9 +41,9 @@ public class IdentityManagementController {
 		
 		String out = "";
 		
-		if(emart.retrieveUserToAuthenticate(email, password) != null && !emart.retrieveUserToAuthenticate(email, password).isEmpty()) {
+		if(userModel.retrieveUserToAuthenticate(email, password) != null && !userModel.retrieveUserToAuthenticate(email, password).isEmpty()) {
 			
-			UserBean user = emart.retrieveUserToAuthenticate(email, password).get(email);
+			UserBean user = userModel.retrieveUserToAuthenticate(email, password).get(email);
 			AuthBean auth = SecurityFilter.tokenGenerator(email);
 			
 			auth.setEmail(email);
@@ -64,8 +67,8 @@ public class IdentityManagementController {
 		
 		String out = "{ \"result\": ";
 		
-		if(emart.retrieveUser(email) == null  || emart.retrieveUser(email).isEmpty()) {
-			int res = emart.addUser(email, password, firstname, lastname, phone, role, streetShip, provinceShip, countryShip, zipShip, streetBill, provinceBill, countryBill, zipBill);
+		if(userModel.retrieveUser(email) == null  || userModel.retrieveUser(email).isEmpty()) {
+			int res = userModel.addUser(email, password, firstname, lastname, phone, role, streetShip, provinceShip, countryShip, zipShip, streetBill, provinceBill, countryBill, zipBill);
 			if (res >=0)
 				out += "\"Successful, You can now sign in.\"";
 			else

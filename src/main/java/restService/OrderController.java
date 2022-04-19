@@ -11,7 +11,11 @@ import com.google.gson.GsonBuilder;
 
 import Authentication.CORS;
 import Authentication.SecureAuth;
+import model.AddressModel;
 import model.EMartModel;
+import model.POItemModel;
+import model.POModel;
+import model.UserModel;
 import bean.ItemBean;
 import bean.UserBean;
 
@@ -21,13 +25,20 @@ import bean.UserBean;
 
 public class OrderController {
 
-	private EMartModel emart;
+//	private EMartModel emart;
+	private AddressModel addressModel;
+	private POModel poModel;
+	private POItemModel poItemModel;
+	private UserModel userModel;
 	private Gson jsonConvertor;
 	
 	public OrderController() {
 		
-		emart = EMartModel.getInstance();
-		
+//		emart = EMartModel.getInstance();
+		addressModel = AddressModel.getInstance();
+		poModel = POModel.getInstance();
+		poItemModel = POItemModel.getInstance();
+		userModel = UserModel.getInstance();
 		GsonBuilder builder = new GsonBuilder();
 		jsonConvertor = builder.create();
 	}
@@ -39,22 +50,22 @@ public class OrderController {
 		
 		Map json = jsonConvertor.fromJson(body, Map.class);
 		String email = (String) json.get("email");
-		UserBean user = emart.retrieveUser(email).get(email);
+		UserBean user = userModel.retrieveUser(email).get(email);
 		Map shipping = (Map<String, String>)json.get("shipping");
 		Map billing = (Map<String, String>)json.get("billing");
 
 		
-		int sAddId = emart.retrieveAllAddressesByAllParameters((String)shipping.get("street"), (String)shipping.get("province")
+		int sAddId = addressModel.retrieveAllAddressesByAllParameters((String)shipping.get("street"), (String)shipping.get("province")
 				, (String)shipping.get("country"), (String)shipping.get("zip"));
-		int bAddId = emart.retrieveAllAddressesByAllParameters((String)billing.get("street"), (String)billing.get("province")
+		int bAddId = addressModel.retrieveAllAddressesByAllParameters((String)billing.get("street"), (String)billing.get("province")
 				, (String)billing.get("country"), (String)billing.get("zip"));
 		
-		sAddId = sAddId!=-1?sAddId:emart.insertAddress((String)shipping.get("street"), (String)shipping.get("province")
+		sAddId = sAddId!=-1?sAddId:addressModel.insertAddress((String)shipping.get("street"), (String)shipping.get("province")
 				, (String)shipping.get("country"), (String)shipping.get("zip"));
-		bAddId = bAddId!=-1?bAddId:emart.insertAddress((String)billing.get("street"), (String)billing.get("province")
+		bAddId = bAddId!=-1?bAddId:addressModel.insertAddress((String)billing.get("street"), (String)billing.get("province")
 				, (String)billing.get("country"), (String)billing.get("zip"));
 		
-		emart.insertPurchaseOrder(Integer.toString(sAddId), Integer.toString(bAddId), user.getUserId(), user.getFirstname(), user.getLastname(), "ORDERING");
+		poModel.insertPurchaseOrder(Integer.toString(sAddId), Integer.toString(bAddId), user.getUserId(), user.getFirstname(), user.getLastname(), "ORDERING");
 		
 		String out = "";
 		return out;
@@ -71,7 +82,7 @@ public class OrderController {
 			
 			String bid = i.split("-")[0];
 			String price = i.split("-")[1];
-			emart.insertPOItem(Integer.parseInt(poID), price, bid);
+			poItemModel.insertPOItem(Integer.parseInt(poID), price, bid);
 		}
 		
 		return "{ \"Result\" : \"Added all\" }";
@@ -82,7 +93,7 @@ public class OrderController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String processOrder(@QueryParam("PurchaseOrderID") String poID) {
 		
-		String status = emart.processOrder(Integer.parseInt(poID));
+		String status = poModel.processOrder(Integer.parseInt(poID));
 		
 		String out = "{ \"Order Status\": \"" +status +"\" }";
 		return out;

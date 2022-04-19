@@ -15,7 +15,7 @@ import com.google.gson.GsonBuilder;
 
 import Authentication.CORS;
 import Authentication.SecureAuth;
-import model.EMartModel;
+import model.ReviewModel;
 import bean.ReviewBean;
 
 @Path("review")
@@ -23,12 +23,12 @@ import bean.ReviewBean;
 
 public class ReviewController {
 	
-	private EMartModel emart;
+	private ReviewModel reviewModel;
 	private Gson jsonConvertor;
 	
 	public ReviewController() {
 		// TODO Auto-generated constructor stub
-		emart = EMartModel.getInstance();
+		reviewModel = ReviewModel.getInstance();
 		
 		GsonBuilder builder = new GsonBuilder();
 		jsonConvertor = builder.create();
@@ -42,7 +42,7 @@ public class ReviewController {
 			@QueryParam("rating") String rating, @QueryParam("itemId") String itemId) {
 		try {
 			System.out.println(reviewDesc);
-			int result = emart.addReview(userPostId, reviewDesc, rating, itemId);
+			int result = reviewModel.addReview(userPostId, reviewDesc, rating, itemId);
 			return "{ \"response\" : " + "\"Reviews Added:" + result + "\"" +"}";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -56,7 +56,7 @@ public class ReviewController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String getReviewByItem(@QueryParam("itemId") String itemId) {
 		try {
-			Map<Integer, ReviewBean> dbresult = emart.retrieveAllItemReviews(itemId);
+			Map<Integer, ReviewBean> dbresult = reviewModel.retrieveAllItemReviews(itemId);
 
 			Boolean firstReview = true;
 			System.out.println("Have recieved an ajax call.");
@@ -90,7 +90,7 @@ public class ReviewController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String getAverageReviewItem(@QueryParam("itemId") String itemId) {
 		try {
-			double dbresult = emart.retrieveItemAvgRating(itemId);
+			double dbresult = reviewModel.retrieveItemAvgRating(itemId);
 			StringBuilder res = new StringBuilder();
 			res.append("{ \"rating\" :  ");
 			if (dbresult >= 0) {
