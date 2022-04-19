@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context privileged="true" reloadable="true">
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Manager pathname="" />
+	<Resource name="jdbc/EECS" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+	type="javax.sql.DataSource"
+	driverClassName="com.mysql.jdbc.Driver"
+	username="admin"
+	password="emart1234"
+	url="jdbc:mysql://emart-db.cxgknlffz0eu.us-east-1.rds.amazonaws.com:3306/emart"/>
+	<ResourceLink global="jdbc/EECS" name="jdbc/EECS" type="javax.sql.DataSource" />
+</Context>
