@@ -13,19 +13,21 @@ import com.google.gson.GsonBuilder;
 import bean.ItemBean;
 import bean.VisitEventBean;
 import model.EMartModel;
+import model.VisitEventModel;
 
 @Path("analytics") //this is the path of the resource
 
 
 public class AnalyticsController {
 
-	private EMartModel emart;
+//	private EMartModel emart;
+	private VisitEventModel visitEventModel;
 	private Gson jsonConvertor;
 	
 	public AnalyticsController() {
 		
-		emart = EMartModel.getInstance();
-		
+//		emart = EMartModel.getInstance();
+		visitEventModel = VisitEventModel.getInstance();
 		GsonBuilder builder = new GsonBuilder();
 		jsonConvertor = builder.create();
 	}
@@ -35,7 +37,7 @@ public class AnalyticsController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAppUsage() {
 		
-		List<VisitEventBean> events = emart.retrieveAllVisitEvents();
+		List<VisitEventBean> events = visitEventModel.retrieveAllVisitEvents();
 		
 		String out = "";
 		
@@ -56,7 +58,7 @@ public class AnalyticsController {
 		
 		try {
 			
-			events = emart.monthlyReport();
+			events = visitEventModel.monthlyReport();
 			
 			if(events != null && !events.isEmpty()) {
 				out = "{ \"events\" : " +jsonConvertor.toJson(events) +"}";
@@ -80,7 +82,7 @@ public class AnalyticsController {
 			@QueryParam("day")String day, @QueryParam("bid")String
 			bid, @QueryParam("event")String event) {
 		
-		return "insertedRows:" +emart.insertVisitEvent(ip, day, bid, event);
+		return "{ \"insertedRows\":" +visitEventModel.insertVisitEvent(ip, day, bid, event) + "}";
 	}
 	
 }
