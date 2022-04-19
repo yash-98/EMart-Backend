@@ -46,28 +46,18 @@ public class OrderController {
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String createOrder(String body) {
-		
-		Map json = jsonConvertor.fromJson(body, Map.class);
-		String email = (String) json.get("email");
-		UserBean user = userModel.retrieveUser(email).get(email);
-		Map shipping = (Map<String, String>)json.get("shipping");
-		Map billing = (Map<String, String>)json.get("billing");
-
-		
-		int sAddId = addressModel.retrieveAllAddressesByAllParameters((String)shipping.get("street"), (String)shipping.get("province")
-				, (String)shipping.get("country"), (String)shipping.get("zip"));
-		int bAddId = addressModel.retrieveAllAddressesByAllParameters((String)billing.get("street"), (String)billing.get("province")
-				, (String)billing.get("country"), (String)billing.get("zip"));
-		
-		sAddId = sAddId!=-1?sAddId:addressModel.insertAddress((String)shipping.get("street"), (String)shipping.get("province")
-				, (String)shipping.get("country"), (String)shipping.get("zip"));
-		bAddId = bAddId!=-1?bAddId:addressModel.insertAddress((String)billing.get("street"), (String)billing.get("province")
-				, (String)billing.get("country"), (String)billing.get("zip"));
-		
-		poModel.insertPurchaseOrder(Integer.toString(sAddId), Integer.toString(bAddId), user.getUserId(), user.getFirstname(), user.getLastname(), "ORDERING");
+	public String createOrder(@QueryParam("email") String email) {
 		
 		String out = "";
+		int result = poModel.insertPurchaseOrder(email, "ORDERING");
+		
+		if(result >= 1) {
+			out = "{ \"PurchaseOrderId\" : \"" +result +"\" }";
+		}
+		else {
+			out = "{ \"Error\" : \"The Purchase Order Could not be created\" }";
+		}
+		
 		return out;
 	}
 	

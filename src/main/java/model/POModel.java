@@ -3,6 +3,7 @@ package model;
 import java.util.Map;
 
 import bean.POBean;
+import bean.UserBean;
 import dao.*;
 
 public class POModel {
@@ -14,6 +15,7 @@ public class POModel {
 
 	
 	private static POModel instance;
+	private UserModel userModel;
 	
 	public static POModel getInstance() {
 		if (instance == null) {
@@ -33,6 +35,7 @@ public class POModel {
 		try {
 			// DAO instantiation
 			poData = new PODAO();
+			userModel = UserModel.getInstance();
 			// Static variable ID instantiation
 			// TODO instantiate IDs with the largest ID			
 			this.pOId = poData.LastID();
@@ -67,18 +70,21 @@ public class POModel {
 			}
 		}
 		
-		public int insertPurchaseOrder(String shippingAddressId, String billingAddressId, String email, String firstname, String lastname, String status) {
+		public int insertPurchaseOrder(String email, String status) {
 			try {
 				this.pOId++;
-				int saddrId = Integer.parseInt(shippingAddressId);
-				int baddrId = Integer.parseInt(billingAddressId);
-				checkPOParameters(email, firstname, lastname, status);
+				
+				UserBean user = userModel.retrieveUser(email).get(email);
+				
+				int saddrId = user.getAddressIdShip();
+				int baddrId = user.getAddressIdBill();
+				
+				checkPOParameters(email, user.getFirstname(), user.getLastname(), status);
 				email = email.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-				firstname = firstname.replaceAll(" ", "").replaceAll("[\"\"'']", "");
-				lastname = lastname.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 				status = status.replaceAll(" ", "").replaceAll("[\"\"'']", "");
 				
-				return this.poData.insert(pOId, saddrId, baddrId, email, lastname, firstname, status);
+				this.poData.insert(pOId, saddrId, baddrId, email, user.getLastname(), user.getFirstname(), status);
+				return this.pOId;
 			} catch (Exception e) {
 				// TODO: handle exception
 				this.pOId--;
