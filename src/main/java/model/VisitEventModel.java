@@ -41,6 +41,7 @@ public class VisitEventModel {
 		try {
 			// DAO instantiation
 			visitData = new VisitEventDAO();
+			this.itemModel = ItemModel.getInstance();
 			// Static variable ID instantiation
 			// TODO instantiate IDs with the largest ID			
 			} catch (Exception e) {
@@ -111,7 +112,7 @@ public class VisitEventModel {
 		
 		Map<String, Set<ItemBean>> rv = new HashMap<String, Set<ItemBean>>();
 		Map<Integer, ItemBean> items = this.itemModel.getItemData().retrieveAll();
-		
+//		System.out.println("here " + items.size());
 		for(Map.Entry<String, Set<Integer>> e : visitData.retreiveItemsSold().entrySet()) {
 			
 			Set<ItemBean> itemNames = new HashSet<ItemBean>();
