@@ -46,9 +46,17 @@ public class SecurityFilter implements ContainerRequestFilter{
 					.requireSubject("CUSTOMER")
 					.parseClaimsJwt(token);
 		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Authentication Failed.");
-			throw new NotAuthorizedException(Response.status(Response.Status.UNAUTHORIZED));
+			
+			try {
+				Jwts.parser()
+					.setSigningKey(Keys.hmacShaKeyFor(SECRET))
+					.requireSubject("CUSTOMER")
+					.parseClaimsJwt(token);
+			}catch(Exception ex) {
+				ex.printStackTrace();
+				System.out.println("Authentication Failed.");
+				throw new NotAuthorizedException(Response.status(Response.Status.UNAUTHORIZED));
+			}
 		}
 		
 		System.out.println("Authentication Successful");
