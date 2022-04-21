@@ -50,7 +50,7 @@ public class SecurityFilter implements ContainerRequestFilter{
 			try {
 				Jwts.parser()
 					.setSigningKey(Keys.hmacShaKeyFor(SECRET))
-					.requireSubject("CUSTOMER")
+					.requireSubject("ADMIN")
 					.parseClaimsJwt(token);
 			}catch(Exception ex) {
 				ex.printStackTrace();

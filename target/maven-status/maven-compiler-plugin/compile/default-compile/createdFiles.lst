@@ -1,4 +1,5 @@
 dao\PODAO.class
+Authentication\AdminAuth.class
 dao\ItemDAO.class
 restService\IdentityManagementController.class
 bean\POBean.class
@@ -27,6 +28,7 @@ restService\OrderController.class
 Authentication\CORSFilter.class
 model\AddressModel.class
 bean\ItemBean.class
+Authentication\AdminFilter.class
 restService\CatalogController$1.class
 model\POModel.class
 model\ReviewModel.class
