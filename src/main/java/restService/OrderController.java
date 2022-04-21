@@ -9,6 +9,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.AdminAuth;
 import Authentication.CORS;
 import Authentication.SecureAuth;
 import model.AddressModel;
@@ -20,7 +21,6 @@ import bean.ItemBean;
 import bean.UserBean;
 
 @Path("order") //this is the path of the resource
-@SecureAuth
 @CORS
 
 public class OrderController {
@@ -45,6 +45,7 @@ public class OrderController {
 	
 	@POST
 	@Path("/create")
+	@SecureAuth
 	@Produces(MediaType.APPLICATION_JSON)
 	public String createOrder(@QueryParam("email") String email) {
 		
@@ -63,8 +64,9 @@ public class OrderController {
 	
 	@POST
 	@Path("/addItems")
+	@SecureAuth
 	@Produces(MediaType.APPLICATION_JSON)
-	public String addItemsToPO(@QueryParam("PurchaseOrderID") String poID, @QueryParam("items") String items) {
+	public String addItemsToPO(@QueryParam("PurchaseOrderId") String poID, @QueryParam("items") String items) {
 		
 		String[] itemPair = items.split(",");
 		
@@ -80,8 +82,9 @@ public class OrderController {
 	
 	@POST
 	@Path("/process")
+	@SecureAuth
 	@Produces(MediaType.APPLICATION_JSON)
-	public String processOrder(@QueryParam("PurchaseOrderID") String poID) {
+	public String processOrder(@QueryParam("PurchaseOrderId") String poID) {
 		
 		String status = poModel.processOrder(Integer.parseInt(poID));
 		
@@ -91,6 +94,7 @@ public class OrderController {
 	
 	@POST
 	@Path("/changeOrderStatus")
+	@AdminAuth
 	@Produces(MediaType.APPLICATION_JSON)
 	public String changeOrderStatus(@QueryParam("PurchaseOrderID") String poID, @QueryParam("Status") String status) {
 		

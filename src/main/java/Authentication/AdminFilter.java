@@ -20,8 +20,8 @@ import io.jsonwebtoken.security.Keys;
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
 @Provider
-@SecureAuth
-public class SecurityFilter implements ContainerRequestFilter{
+@AdminAuth
+public class AdminFilter implements ContainerRequestFilter{
 
 	private static final String BEARER = "Bearer";
 	private static final byte[] SECRET = Base64.getDecoder().decode("fQQL4ucrPErtTqAxSvOV7XVadkKfIHGArw3Od5kYLYQ=");
@@ -43,7 +43,7 @@ public class SecurityFilter implements ContainerRequestFilter{
 		try {
 				Jwts.parser()
 					.setSigningKey(Keys.hmacShaKeyFor(SECRET))
-					.requireSubject("CUSTOMER")
+					.requireSubject("ADMIN")
 					.parseClaimsJwt(token);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -63,15 +63,14 @@ public class SecurityFilter implements ContainerRequestFilter{
 		temp.setTime(expiry);
 		
 		token = Jwts.builder()
-				.setSubject("CUSTOMER")
+				.setSubject("ADMIN")
 				.claim("email", user)
 				.setIssuedAt(Date.from(now))
 				.setExpiration(expiry)
 				.compact();
 		
-		token = SecurityFilter.BEARER +" " +token;
+		token = AdminFilter.BEARER +" " +token;
 		
 		return new AuthBean(token, String.format("%d-%d-%d", temp.get(Calendar.YEAR), temp.get(Calendar.MONTH), temp.get(Calendar.DAY_OF_MONTH)));
 	}
-
 }

@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.AdminAuth;
 import bean.ItemBean;
 import bean.VisitEventBean;
 import model.EMartModel;
@@ -34,6 +35,7 @@ public class AnalyticsController {
 	
 	@GET
 	@Path("/appusage")
+	@AdminAuth
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAppUsage() {
 		
@@ -50,6 +52,7 @@ public class AnalyticsController {
 	
 	@GET
 	@Path("/salesreport")
+	@AdminAuth
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getSalesReport() {
 		

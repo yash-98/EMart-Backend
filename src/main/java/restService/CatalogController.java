@@ -9,6 +9,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.AdminAuth;
 import Authentication.CORS;
 import Authentication.SecureAuth;
 import model.EMartModel;
@@ -134,7 +135,7 @@ public class CatalogController {
 	@POST
 	@Path("/insertItem")
 	@Produces(MediaType.APPLICATION_JSON)
-	@SecureAuth
+	@AdminAuth
 	public String addItem(@QueryParam("name") String name,@QueryParam("description") String description,@QueryParam("type") String type,@QueryParam("brand") String brand,@QueryParam("quantity") String quantity,@QueryParam("price") String price,@QueryParam("link") String link) {
 		
 		String out = "";

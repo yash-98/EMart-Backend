@@ -9,6 +9,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Authentication.AdminFilter;
 import Authentication.CORS;
 import Authentication.SecurityFilter;
 import bean.AuthBean;
@@ -44,7 +45,13 @@ public class IdentityManagementController {
 		if(userModel.retrieveUserToAuthenticate(email, password) != null && !userModel.retrieveUserToAuthenticate(email, password).isEmpty()) {
 			
 			UserBean user = userModel.retrieveUserToAuthenticate(email, password).get(email);
-			AuthBean auth = SecurityFilter.tokenGenerator(email);
+			AuthBean auth = null;
+			
+			if(user.getRole().equals("CUSTOMER"))
+				auth = SecurityFilter.tokenGenerator(email);
+			
+			if(user.getRole().equals("ADMIN"))
+				auth = AdminFilter.tokenGenerator(email);
 			
 			auth.setEmail(email);
 			auth.setRole(user.getRole());
@@ -67,7 +74,11 @@ public class IdentityManagementController {
 		
 		String out = "{ \"result\": ";
 		
+		if(role == null || role == "")
+			role = "CUSTOMER";
+		
 		if(userModel.retrieveUser(email) == null  || userModel.retrieveUser(email).isEmpty()) {
+			
 			int res = userModel.addUser(email, password, firstname, lastname, phone, role, streetShip, provinceShip, countryShip, zipShip, streetBill, provinceBill, countryBill, zipBill);
 			if (res >=0)
 				out += "\"Successful, You can now sign in.\"";
